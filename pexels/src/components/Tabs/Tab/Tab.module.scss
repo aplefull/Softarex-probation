@@ -1,0 +1,34 @@
+.tab {
+  width: fit-content;
+  height: 100%;
+  text-decoration: none;
+  color: #5e5e5e;
+
+
+  p {
+    margin: 0;
+    padding: 17px;
+    font-size: 1.1rem;
+    font-weight: 600;
+  }
+
+  .underline {
+    width: 100%;
+    height: 0.22rem;
+    border-radius: 2px 2px 0 0;
+    background-color: #0064f9;
+    display: none;
+  }
+
+  &:hover {
+    color: #0064f9;
+  }
+}
+
+.active {
+  color: #0064f9;
+
+  .underline {
+    display: block;
+  }
+}
