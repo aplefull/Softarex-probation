@@ -7,10 +7,29 @@ header {
 
   .headerImage {
     position: absolute;
+    height: 500px;
+    width: 100%;
+    object-fit: cover;
     top: 0;
     left: 0;
     right: 0;
     z-index: -1;
+    user-select: none;
+  }
+
+  .authorLink {
+    position: absolute;
+    width: fit-content;
+    right: 15px;
+    top: 470px;
+    font-size: 0.8rem;
+    text-decoration: none;
+    color: #fff;
+    opacity: 0.7;
+
+    &:hover {
+      opacity: 1;
+    }
   }
 
   .headerContentWrapper {
@@ -51,7 +70,7 @@ header {
           }
 
           &:not(:last-child)::after {
-            content: ',';
+            content: ",";
           }
         }
       }
