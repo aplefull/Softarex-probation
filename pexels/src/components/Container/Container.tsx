@@ -2,14 +2,16 @@ import React from "react";
 import styles from "./Container.module.scss";
 import Title from "./Title/Title";
 import Photos from "./Photos/Photos";
+import Loading from "./Loading/Loading";
 
 function Container() {
-    return (
-        <div className={styles.container}>
-            <Title/>
-            <Photos/>
-        </div>
-    );
+  return (
+    <div className={styles.container}>
+      <Title />
+      <Photos />
+      <Loading isHidden={false} />
+    </div>
+  );
 }
 
 export default Container;
