@@ -1,4 +1,4 @@
-import { LOAD_PHOTOS } from "./types";
+import { LOAD_PHOTOS } from './types';
 
 const initialState = {
   photos: [],

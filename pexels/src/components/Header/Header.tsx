@@ -1,14 +1,14 @@
-import NavBar from "./NavBar/NavBar";
-import React, { useEffect } from "react";
-import styles from "./Header.module.scss";
-import SearchBar from "./SearchBar/SearchBar";
-import { connect } from "react-redux";
+import NavBar from './NavBar/NavBar';
+import React, { useEffect } from 'react';
+import styles from './Header.module.scss';
+import SearchBar from './SearchBar/SearchBar';
+import { connect } from 'react-redux';
 import {
   getHeaderImage,
   showSearchBar,
   hideSearchBar,
-} from "../../redux/actions";
-import { suggestionsArray } from "../../suggestions";
+} from '../../redux/actions';
+import { suggestionsArray } from '../../suggestions';
 
 interface propTypes {
   headerImage: string;
@@ -24,14 +24,14 @@ function Header(props: propTypes) {
   useEffect(() => {
     props.getHeaderImage();
 
-    window.addEventListener("scroll", () => {
+    window.addEventListener('scroll', () => {
       if (window.pageYOffset > 250 && props.isHidden) {
         props.showSearchBar();
       } else if (window.pageYOffset < 250) {
         props.hideSearchBar();
       }
     });
-    console.log("header image has been changed");
+    console.log('header image has been changed');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -63,14 +63,14 @@ function Header(props: propTypes) {
                 </a>
               );
             })}
-            <a href={`https://www.pexels.com/popular-searches/`}>{"more"}</a>
+            <a href={`https://www.pexels.com/popular-searches/`}>{'more'}</a>
           </div>
         </div>
       </div>
       <a
         href={props.authorLink}
-        target={"_blank"}
-        rel={"noreferrer"}
+        target={'_blank'}
+        rel={'noreferrer'}
         className={styles.authorLink}
       >
         Photo by {props.authorName}

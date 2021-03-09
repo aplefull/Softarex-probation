@@ -3,7 +3,7 @@ import {
   LOAD_HEADER_IMAGE,
   LOAD_PHOTOS,
   SHOW_SEARCH_BAR,
-} from "./types";
+} from './types';
 
 export function getHeaderImage() {
   return async (dispatch: Function) => {
@@ -12,7 +12,7 @@ export function getHeaderImage() {
       {
         headers: {
           Authorization:
-            "563492ad6f917000010000014640aabb4e9d420cbe1c0df7daf4c2bf",
+            '563492ad6f917000010000014640aabb4e9d420cbe1c0df7daf4c2bf',
         },
       }
     );
@@ -40,7 +40,7 @@ export function loadPhotos() {
       {
         headers: {
           Authorization:
-            "563492ad6f917000010000014640aabb4e9d420cbe1c0df7daf4c2bf",
+            '563492ad6f917000010000014640aabb4e9d420cbe1c0df7daf4c2bf',
         },
       }
     );

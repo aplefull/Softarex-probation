@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
-import styles from "./Photos.module.scss";
-import Photo from "./Photo/Photo";
-import { connect } from "react-redux";
-import { loadPhotos } from "../../../redux/actions";
+import React, { useEffect } from 'react';
+import styles from './Photos.module.scss';
+import Photo from './Photo/Photo';
+import { connect } from 'react-redux';
+import { loadPhotos } from '../../../redux/actions';
 
 interface propTypes {
   photos: Array<any>;

@@ -1,5 +1,5 @@
-import React from "react";
-import styles from "./Tab.module.scss";
+import React from 'react';
+import styles from './Tab.module.scss';
 
 interface TabText {
   text: string;
@@ -10,7 +10,7 @@ function Tab(props: TabText) {
   return (
     <a
       href="https://aplefull.art"
-      className={`${styles.tab} ${props.isSelected ? styles.active : ""}`}
+      className={`${styles.tab} ${props.isSelected ? styles.active : ''}`}
     >
       <p>{props.text}</p>
       <div className={styles.underline}></div>

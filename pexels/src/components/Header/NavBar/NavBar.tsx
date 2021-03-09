@@ -1,8 +1,8 @@
-import React from "react";
-import logo from "../../../images/logo.png";
-import icon from "../../../icons/ellipsis.svg";
-import SearchBar from "../SearchBar/SearchBar";
-import styles from "./NavBar.module.scss";
+import React from 'react';
+import logo from '../../../images/logo.png';
+import icon from '../../../icons/ellipsis.svg';
+import SearchBar from '../SearchBar/SearchBar';
+import styles from './NavBar.module.scss';
 
 interface propTypes {
   isHidden?: boolean;
@@ -11,9 +11,9 @@ interface propTypes {
 function NavBar(props: propTypes) {
   return (
     <div
-      className={`${styles.navbar} ${props.isHidden ? "" : styles.showColor}`}
+      className={`${styles.navbar} ${props.isHidden ? '' : styles.showColor}`}
     >
-      <a className={styles.navbar__logoWrapper} href={"/"}>
+      <a className={styles.navbar__logoWrapper} href={'/'}>
         <img src={logo} alt="logo" />
         <p>Pexels</p>
       </a>
@@ -21,13 +21,13 @@ function NavBar(props: propTypes) {
       <div className={styles.navbar__navigationWrapper}>
         <ul className={styles.navigationLinks}>
           <li>
-            <a href={"https://www.pexels.com/discover/"}>Explore</a>
+            <a href={'https://www.pexels.com/discover/'}>Explore</a>
           </li>
           <li>
-            <a href={"https://www.pexels.com/license/"}>License</a>
+            <a href={'https://www.pexels.com/license/'}>License</a>
           </li>
           <li>
-            <a href={"https://www.pexels.com/join-contributor/"}>Upload</a>
+            <a href={'https://www.pexels.com/join-contributor/'}>Upload</a>
           </li>
           <li>
             <img src={icon} alt="ellipsis" />

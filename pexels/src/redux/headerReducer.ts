@@ -1,10 +1,10 @@
-import { HIDE_SEARCH_BAR, LOAD_HEADER_IMAGE, SHOW_SEARCH_BAR } from "./types";
+import { HIDE_SEARCH_BAR, LOAD_HEADER_IMAGE, SHOW_SEARCH_BAR } from './types';
 
 const initialState = {
-  headerImage: "",
+  headerImage: '',
   isHidden: true,
-  authorName: "",
-  authorLink: "",
+  authorName: '',
+  authorLink: '',
 };
 
 export function headerReducer(
