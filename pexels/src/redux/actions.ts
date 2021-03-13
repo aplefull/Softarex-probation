@@ -33,10 +33,11 @@ export function hideSearchBar() {
   };
 }
 
-export function loadPhotos() {
+export function loadPhotos(page: number) {
+  console.log('photos loaded', page);
   return async (dispatch: Function) => {
     const response = await fetch(
-      `https://api.pexels.com/v1/curated?per_page=20`,
+      `https://api.pexels.com/v1/curated?per_page=20&&page=${page}`,
       {
         headers: {
           Authorization:

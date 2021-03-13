@@ -2,6 +2,7 @@ import { LOAD_PHOTOS } from './types';
 
 const initialState = {
   photos: [],
+  currentPage: 1
 };
 
 export function photosReducer(
@@ -13,6 +14,7 @@ export function photosReducer(
       return {
         ...state,
         photos: state.photos.concat(action.payload.photos),
+        currentPage: state.currentPage + 1
       };
     default:
       return state;
