@@ -9,6 +9,7 @@ import {
   hideSearchBar,
 } from '../../redux/actions';
 import { suggestionsArray } from '../../suggestions';
+import {useInView} from "react-intersection-observer";
 
 interface propTypes {
   headerImage: string;
@@ -20,30 +21,27 @@ interface propTypes {
   hideSearchBar: Function;
 }
 
+const shuffledSuggestions = suggestionsArray.sort(() => 0.5 - Math.random());
+
 function Header(props: propTypes) {
   useEffect(() => {
     props.getHeaderImage();
-
-    window.addEventListener('scroll', () => {
-      if (window.pageYOffset > 250 && props.isHidden) {
-        props.showSearchBar();
-      } else if (window.pageYOffset < 250) {
-        props.hideSearchBar();
-      }
-    });
-    console.log('header image has been changed');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const shuffledSuggestions = suggestionsArray.sort(() => 0.5 - Math.random());
+  const options = {
+    threshold: 0.5
+  };
+  const { ref, inView } = useInView(options);
 
   return (
     <header>
-      <NavBar isHidden={props.isHidden} />
+      <NavBar isHidden={inView} />
       <img
         src={props.headerImage}
         className={styles.headerImage}
         alt="background"
+        ref={ref}
       />
       <div className={styles.headerContentWrapper}>
         <h1>

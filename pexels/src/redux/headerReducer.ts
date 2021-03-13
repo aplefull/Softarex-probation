@@ -1,8 +1,7 @@
-import { HIDE_SEARCH_BAR, LOAD_HEADER_IMAGE, SHOW_SEARCH_BAR } from './types';
+import { LOAD_HEADER_IMAGE } from './types';
 
 const initialState = {
   headerImage: '',
-  isHidden: true,
   authorName: '',
   authorLink: '',
 };
@@ -20,10 +19,6 @@ export function headerReducer(
         authorName: action.payload.photos[imageNumber].photographer,
         authorLink: action.payload.photos[imageNumber].url,
       };
-    case SHOW_SEARCH_BAR:
-      return { ...state, isHidden: false };
-    case HIDE_SEARCH_BAR:
-      return { ...state, isHidden: true };
     default:
       return state;
   }
