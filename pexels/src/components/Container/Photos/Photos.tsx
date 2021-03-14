@@ -4,11 +4,13 @@ import Photo from './Photo/Photo';
 import { connect } from 'react-redux';
 import { loadPhotos } from '../../../redux/actions';
 import { InView } from 'react-intersection-observer';
+import {RootState} from "../../../redux/rootReducer";
 
 interface propTypes {
   photos: Array<any>;
   currentPage: number;
   loadPhotos: Function;
+  isLoading: boolean;
 }
 
 function Photos(props: propTypes) {
@@ -16,8 +18,9 @@ function Photos(props: propTypes) {
     props.loadPhotos(props.currentPage);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  
-  let columnsArray = [];
+
+  // TODO properly sort photos by columns, change number of columns on resize
+  let columnsArray: Array<any> = [];
   if (window.innerWidth < 624) {
     columnsArray.push(props.photos);
   } else if (window.innerWidth < 900) {
@@ -45,11 +48,14 @@ function Photos(props: propTypes) {
 
   return (
     <div className={styles.photosColumns}>
-      {columnsArray.map((column, index) => (
+      {columnsArray.map((column: Array<any>, index: number) => (
         <div className={styles.photosColumn} key={index}>
-          {column.map((photo, index) => (
+          {column.map((photo: any, index: number) => (
             <Photo
               photoLink={`${photo.src.original}?auto=compress&cs=tinysrgb&dpr=1&w=800`}
+              photographerURL={photo.photographer_url}
+              photographerName={photo.photographer}
+              photoId={photo.id}
               key={index}
             />
           ))}
@@ -58,8 +64,8 @@ function Photos(props: propTypes) {
       <InView
         as={'div'}
         className={styles.intersectionTracker}
-        onChange={(inView) => {
-          if (inView) {
+        onChange={(inView: boolean) => {
+          if (inView && !props.isLoading) {
             props.loadPhotos(props.currentPage);
           }
         }}
@@ -70,10 +76,11 @@ function Photos(props: propTypes) {
   );
 }
 
-function mapStateToProps(state: any) {
+function mapStateToProps(state: RootState) {
   return {
     photos: state.photosReducer.photos,
-    currentPage: state.photosReducer.currentPage
+    currentPage: state.photosReducer.currentPage,
+    isLoading: state.photosReducer.isLoading
   };
 }
 
