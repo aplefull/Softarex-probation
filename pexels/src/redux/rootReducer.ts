@@ -6,3 +6,5 @@ export const rootReducer = combineReducers({
   headerReducer: headerReducer,
   photosReducer: photosReducer,
 });
+
+export type RootState = ReturnType<typeof rootReducer>;

@@ -1,8 +1,9 @@
-import { LOAD_PHOTOS } from './types';
+import { HIDE_LOADING, LOAD_PHOTOS, SHOW_LOADING } from './types';
 
 const initialState = {
   photos: [],
-  currentPage: 1
+  currentPage: 1,
+  isLoading: false,
 };
 
 export function photosReducer(
@@ -14,9 +15,14 @@ export function photosReducer(
       return {
         ...state,
         photos: state.photos.concat(action.payload.photos),
-        currentPage: state.currentPage + 1
+        currentPage: state.currentPage + 1,
       };
+    case SHOW_LOADING:
+      return { ...state, isLoading: true };
+    case HIDE_LOADING:
+      return { ...state, isLoading: false };
     default:
       return state;
   }
 }
+

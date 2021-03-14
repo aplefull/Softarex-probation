@@ -5,7 +5,7 @@ import SearchBar from '../SearchBar/SearchBar';
 import styles from './NavBar.module.scss';
 
 interface propTypes {
-  isHidden?: boolean;
+  isHidden: boolean;
 }
 
 function NavBar(props: propTypes) {
