@@ -3,25 +3,18 @@ import React, { useEffect } from 'react';
 import styles from './Header.module.scss';
 import SearchBar from './SearchBar/SearchBar';
 import { connect } from 'react-redux';
-import {
-  getHeaderImage,
-  showSearchBar,
-  hideSearchBar,
-} from '../../redux/actions';
+import { getHeaderImage } from '../../redux/actions';
 import { suggestionsArray } from '../../suggestions';
-import {useInView} from "react-intersection-observer";
+import { useInView } from 'react-intersection-observer';
 
 interface propTypes {
   headerImage: string;
-  isHidden: boolean;
   authorName: string;
   authorLink: string;
   getHeaderImage: Function;
-  showSearchBar: Function;
-  hideSearchBar: Function;
 }
 
-const shuffledSuggestions = suggestionsArray.sort(() => 0.5 - Math.random());
+const shuffledSuggestions: Array<string> = suggestionsArray.sort(() => 0.5 - Math.random());
 
 function Header(props: propTypes) {
   useEffect(() => {
@@ -30,7 +23,7 @@ function Header(props: propTypes) {
   }, []);
 
   const options = {
-    threshold: 0.5
+    threshold: 0.5,
   };
   const { ref, inView } = useInView(options);
 
@@ -80,16 +73,11 @@ function Header(props: propTypes) {
 function mapStateToProps(state: any) {
   return {
     headerImage: state.headerReducer.headerImage,
-    isHidden: state.headerReducer.isHidden,
     authorName: state.headerReducer.authorName,
     authorLink: state.headerReducer.authorLink,
   };
 }
-
 const mapDispatchToProps = {
   getHeaderImage,
-  showSearchBar,
-  hideSearchBar,
 };
-
 export default connect(mapStateToProps, mapDispatchToProps)(Header);
