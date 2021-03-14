@@ -1,19 +1,20 @@
 import React from 'react';
 import styles from './Tab.module.scss';
 
-interface TabText {
+interface propTypes {
   text: string;
   isSelected: boolean;
+  url: string;
 }
 
-function Tab(props: TabText) {
+function Tab(props: propTypes) {
   return (
     <a
-      href="https://aplefull.art"
+      href={props.url}
       className={`${styles.tab} ${props.isSelected ? styles.active : ''}`}
     >
       <p>{props.text}</p>
-      <div className={styles.underline}></div>
+      <div className={styles.underline}/>
     </a>
   );
 }

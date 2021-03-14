@@ -5,11 +5,11 @@ import styles from './Tabs.module.scss';
 function Tabs() {
   return (
     <div className={styles.tabsWrapper}>
-      <Tab text={'Home'} isSelected={true} />
-      <Tab text={'Discover'} isSelected={false} />
-      <Tab text={'Videos'} isSelected={false} />
-      <Tab text={'Leaderboard'} isSelected={false} />
-      <Tab text={'Challenges'} isSelected={false} />
+      <Tab url={'https://pexels.com/home'} text={'Home'} isSelected={true} />
+      <Tab url={'https://pexels.com/discover'} text={'Discover'} isSelected={false} />
+      <Tab url={'https://pexels.com/videos'} text={'Videos'} isSelected={false} />
+      <Tab url={'https://pexels.com/leaderboard'} text={'Leaderboard'} isSelected={false} />
+      <Tab url={'https://pexels.com/challenges'} text={'Challenges'} isSelected={false} />
     </div>
   );
 }
