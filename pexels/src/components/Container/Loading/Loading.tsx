@@ -1,17 +1,15 @@
 import React from 'react';
 import styles from './Loading.module.scss';
+import { useSelector } from 'react-redux';
+import {RootState} from "../../../redux/rootReducer";
 
-interface propTypes {
-  isHidden: boolean;
-}
+function Loading() {
+  const loading: boolean = useSelector(
+    (state: RootState) => state.photosReducer.isLoading
+  );
 
-function Loading(props: propTypes) {
   return (
-    <div
-      className={`${styles.loadingWrapper} ${
-        props.isHidden ? styles.hidden : ''
-      }`}
-    >
+    <div className={`${styles.loadingWrapper} ${loading ? '' : styles.hidden}`}>
       <div className={styles.animationDot} />
       <div className={styles.animationDot} />
       <div className={styles.animationDot} />

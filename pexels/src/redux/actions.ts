@@ -1,8 +1,8 @@
 import {
-  HIDE_SEARCH_BAR,
   LOAD_HEADER_IMAGE,
   LOAD_PHOTOS,
-  SHOW_SEARCH_BAR,
+  SHOW_LOADING,
+  HIDE_LOADING,
 } from './types';
 
 export function getHeaderImage() {
@@ -21,21 +21,10 @@ export function getHeaderImage() {
   };
 }
 
-export function showSearchBar() {
-  return (dispatch: Function) => {
-    dispatch({ type: SHOW_SEARCH_BAR });
-  };
-}
-
-export function hideSearchBar() {
-  return (dispatch: Function) => {
-    dispatch({ type: HIDE_SEARCH_BAR });
-  };
-}
-
 export function loadPhotos(page: number) {
   console.log('photos loaded', page);
   return async (dispatch: Function) => {
+    dispatch(showLoading());
     const response = await fetch(
       `https://api.pexels.com/v1/curated?per_page=20&&page=${page}`,
       {
@@ -47,5 +36,18 @@ export function loadPhotos(page: number) {
     );
     const json = await response.json();
     dispatch({ type: LOAD_PHOTOS, payload: json });
+    dispatch(hideLoading());
+  };
+}
+
+export function showLoading() {
+  return {
+    type: SHOW_LOADING,
+  };
+}
+
+export function hideLoading() {
+  return {
+    type: HIDE_LOADING,
   };
 }
