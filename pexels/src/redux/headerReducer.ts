@@ -1,6 +1,12 @@
 import { LOAD_HEADER_IMAGE } from './types';
 
-const initialState = {
+interface stateTypes {
+  headerImage: string;
+  authorName: string;
+  authorLink: string;
+}
+
+const initialState: stateTypes = {
   headerImage: '',
   authorName: '',
   authorLink: '',
