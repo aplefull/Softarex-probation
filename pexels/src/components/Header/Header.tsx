@@ -40,7 +40,7 @@ function Header(props: propTypes) {
         <h1>
           The best free stock photos & videos shared by talented creators.
         </h1>
-        <SearchBar />
+        <SearchBar width={650} height={56}/>
         <div className={styles.suggestedWrapper}>
           <p>Suggested:</p>
           <div className={styles.suggestionsWrapper}>
