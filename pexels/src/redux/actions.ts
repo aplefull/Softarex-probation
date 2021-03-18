@@ -3,6 +3,8 @@ import {
   LOAD_PHOTOS,
   SHOW_LOADING,
   HIDE_LOADING,
+  SHOW_MODAL,
+  HIDE_MODAL,
 } from './types';
 
 export function getHeaderImage() {
@@ -49,5 +51,21 @@ export function showLoading() {
 export function hideLoading() {
   return {
     type: HIDE_LOADING,
+  };
+}
+
+export function showModal(id: number) {
+  return (dispatch: Function) => {
+    dispatch({
+      type: SHOW_MODAL, payload: id
+    });
+  };
+}
+
+export function hideModal() {
+  return (dispatch: Function) => {
+    dispatch({
+      type: HIDE_MODAL,
+    });
   };
 }

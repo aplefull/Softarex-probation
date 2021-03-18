@@ -1,19 +1,28 @@
-import React from 'react';
+import React, { MouseEventHandler } from 'react';
 import styles from './Photo.module.scss';
 import downloadIcon from '../../../../icons/download.svg';
 import heartIcon from '../../../../icons/heart.svg';
 import addIcon from '../../../../icons/add.svg';
+import { connect } from 'react-redux';
+import { showModal } from '../../../../redux/actions';
 
 interface propTypes {
   photoLink: string;
   photographerURL: string;
   photographerName: string;
   photoId: string;
+  isHidden: boolean;
+  showModal: Function;
 }
 
 function Photo(props: propTypes) {
   return (
-    <div className={styles.photoWrapper}>
+    <div
+      className={styles.photoWrapper}
+      onClick={(e) => {
+        props.showModal(props.photoId);
+      }}
+    >
       <img src={props.photoLink} alt={'p-card'} className={styles.photoImage} />
       <div className={styles.overlay}>
         <div className={styles.authorLinkWrapper}>
@@ -35,4 +44,14 @@ function Photo(props: propTypes) {
   );
 }
 
-export default Photo;
+function mapStateToProps(state: any) {
+  return {
+    isHidden: state.photosReducer.isHidden,
+  };
+}
+
+const dispatchStateToProps = {
+  showModal,
+};
+
+export default connect(mapStateToProps, dispatchStateToProps)(Photo);

@@ -1,9 +1,17 @@
-import { HIDE_LOADING, LOAD_PHOTOS, SHOW_LOADING } from './types';
+import {
+  HIDE_LOADING,
+  HIDE_MODAL,
+  LOAD_PHOTOS,
+  SHOW_LOADING,
+  SHOW_MODAL,
+} from './types';
 
 const initialState = {
   photos: [],
   currentPage: 1,
   isLoading: false,
+  isHidden: true,
+  modalID: null,
 };
 
 export function photosReducer(
@@ -21,8 +29,11 @@ export function photosReducer(
       return { ...state, isLoading: true };
     case HIDE_LOADING:
       return { ...state, isLoading: false };
+    case SHOW_MODAL:
+      return { ...state, isHidden: false, modalID: action.payload };
+    case HIDE_MODAL:
+      return { ...state, isHidden: true };
     default:
       return state;
   }
 }
-
