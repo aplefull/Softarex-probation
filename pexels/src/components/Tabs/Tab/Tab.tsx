@@ -1,13 +1,13 @@
 import React from 'react';
 import styles from './Tab.module.scss';
 
-interface propTypes {
+interface PropTypes {
   text: string;
   isSelected: boolean;
   url: string;
 }
 
-function Tab(props: propTypes) {
+function Tab(props: PropTypes) {
   return (
     <a
       href={props.url}

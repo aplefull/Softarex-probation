@@ -1,4 +1,4 @@
-import React, { MouseEventHandler } from 'react';
+import React from 'react';
 import styles from './Photo.module.scss';
 import downloadIcon from '../../../../icons/download.svg';
 import heartIcon from '../../../../icons/heart.svg';
@@ -6,7 +6,7 @@ import addIcon from '../../../../icons/add.svg';
 import { connect } from 'react-redux';
 import { showModal } from '../../../../redux/actions';
 
-interface propTypes {
+interface PropTypes {
   photoLink: string;
   photographerURL: string;
   photographerName: string;
@@ -15,7 +15,7 @@ interface propTypes {
   showModal: Function;
 }
 
-function Photo(props: propTypes) {
+function Photo(props: PropTypes) {
   return (
     <div
       className={styles.photoWrapper}

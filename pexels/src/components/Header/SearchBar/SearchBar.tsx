@@ -2,13 +2,13 @@ import React from 'react';
 import styles from './SearchBar.module.scss';
 import icon from '../../../icons/magnifying-glass.svg';
 
-interface propTypes {
+interface PropTypes {
   isHidden?: boolean;
   width?: number;
   height?: number;
 }
 
-function SearchBar(props: propTypes) {
+function SearchBar(props: PropTypes) {
   return (
     <div
       className={`${styles.inputWrapper} ${

@@ -6,14 +6,14 @@ import { loadPhotos } from '../../../redux/actions';
 import { InView } from 'react-intersection-observer';
 import {RootState} from "../../../redux/rootReducer";
 
-interface propTypes {
+interface PropTypes {
   photos: Array<any>;
   currentPage: number;
   loadPhotos: Function;
   isLoading: boolean;
 }
 
-function Photos(props: propTypes) {
+function Photos(props: PropTypes) {
   useEffect(() => {
     props.loadPhotos(props.currentPage);
     // eslint-disable-next-line react-hooks/exhaustive-deps

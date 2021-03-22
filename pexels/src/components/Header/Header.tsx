@@ -7,7 +7,7 @@ import { getHeaderImage } from '../../redux/actions';
 import { suggestionsArray } from '../../suggestions';
 import { useInView } from 'react-intersection-observer';
 
-interface propTypes {
+interface PropTypes {
   headerImage: string;
   authorName: string;
   authorLink: string;
@@ -16,7 +16,7 @@ interface propTypes {
 
 const shuffledSuggestions: Array<string> = suggestionsArray.sort(() => 0.5 - Math.random());
 
-function Header(props: propTypes) {
+function Header(props: PropTypes) {
   useEffect(() => {
     props.getHeaderImage();
     // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -4,11 +4,11 @@ import icon from '../../../icons/ellipsis.svg';
 import SearchBar from '../SearchBar/SearchBar';
 import styles from './NavBar.module.scss';
 
-interface propTypes {
+interface PropTypes {
   isHidden: boolean;
 }
 
-function NavBar(props: propTypes) {
+function NavBar(props: PropTypes) {
   return (
     <div
       className={`${styles.navbar} ${props.isHidden ? '' : styles.showColor}`}
