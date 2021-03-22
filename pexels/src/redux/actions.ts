@@ -5,6 +5,7 @@ import {
   HIDE_LOADING,
   SHOW_MODAL,
   HIDE_MODAL,
+  CHANGE_SIZE_OPTION,
 } from './types';
 
 export function getHeaderImage() {
@@ -24,7 +25,6 @@ export function getHeaderImage() {
 }
 
 export function loadPhotos(page: number) {
-  console.log('photos loaded', page);
   return async (dispatch: Function) => {
     dispatch(showLoading());
     const response = await fetch(
@@ -57,7 +57,8 @@ export function hideLoading() {
 export function showModal(id: number) {
   return (dispatch: Function) => {
     dispatch({
-      type: SHOW_MODAL, payload: id
+      type: SHOW_MODAL,
+      payload: id,
     });
   };
 }
@@ -66,6 +67,15 @@ export function hideModal() {
   return (dispatch: Function) => {
     dispatch({
       type: HIDE_MODAL,
+    });
+  };
+}
+
+export function changeSizeOption(option: string) {
+  return (dispatch: Function) => {
+    dispatch({
+      type: CHANGE_SIZE_OPTION,
+      payload: option,
     });
   };
 }
