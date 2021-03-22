@@ -1,4 +1,4 @@
-$main-color-white: #fff;
+@import '../../../../scss/colors';
 
 .photoWrapper {
   width: 100%;
@@ -46,7 +46,7 @@ $main-color-white: #fff;
       padding: 0 0 7px 10px;
 
       a {
-        color: $main-color-white;
+        color: $text-color-white;
         text-decoration: none;
         outline: none;
         cursor: pointer;

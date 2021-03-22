@@ -1,8 +1,4 @@
-$text-color-white: #fff;
-$text-color-white-hover: #eeeeee;
-$button-color-green: #05a081;
-$button-color-green-hover: #097e66;
-$header-bg-color: #232a34;
+@import '../../../scss/colors';
 
 .navbar {
   position: fixed;
