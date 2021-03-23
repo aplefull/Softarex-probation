@@ -5,7 +5,6 @@ import Photos from './Photos/Photos';
 import Loading from './Loading/Loading';
 
 function Container() {
-
   return (
     <div className={styles.container}>
       <Title />

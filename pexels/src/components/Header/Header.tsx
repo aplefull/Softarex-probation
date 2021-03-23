@@ -14,7 +14,9 @@ interface PropTypes {
   getHeaderImage: Function;
 }
 
-const shuffledSuggestions: Array<string> = suggestionsArray.sort(() => 0.5 - Math.random());
+const shuffledSuggestions: Array<string> = suggestionsArray.sort(
+  () => 0.5 - Math.random()
+);
 
 function Header(props: PropTypes) {
   useEffect(() => {
@@ -40,7 +42,7 @@ function Header(props: PropTypes) {
         <h1>
           The best free stock photos & videos shared by talented creators.
         </h1>
-        <SearchBar width={650} height={56}/>
+        <SearchBar width={650} height={56} />
         <div className={styles.suggestedWrapper}>
           <p>Suggested:</p>
           <div className={styles.suggestionsWrapper}>
