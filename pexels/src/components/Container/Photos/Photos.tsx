@@ -2,20 +2,27 @@ import React, { useEffect } from 'react';
 import styles from './Photos.module.scss';
 import Photo from './Photo/Photo';
 import { connect } from 'react-redux';
-import { loadPhotos } from '../../../redux/actions';
+import { loadPhotos, loadSearchedPhotos } from '../../../redux/actions';
 import { InView } from 'react-intersection-observer';
-import {RootState} from "../../../redux/rootReducer";
+import { RootState } from '../../../redux/rootReducer';
+import { useLocation } from 'react-router-dom';
 
 interface PropTypes {
   photos: Array<any>;
   currentPage: number;
+  inputValue: string;
   loadPhotos: Function;
+  loadSearchedPhotos: Function;
   isLoading: boolean;
 }
 
 function Photos(props: PropTypes) {
+  const location = useLocation();
+
   useEffect(() => {
-    props.loadPhotos(props.currentPage);
+    if (location.pathname === '/') {
+      props.loadPhotos(props.currentPage);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -65,8 +72,10 @@ function Photos(props: PropTypes) {
         as={'div'}
         className={styles.intersectionTracker}
         onChange={(inView: boolean) => {
-          if (inView && !props.isLoading) {
+          if (inView && !props.isLoading && location.pathname === '/') {
             props.loadPhotos(props.currentPage);
+          } else if (inView && !props.isLoading) {
+            props.loadSearchedPhotos(props.inputValue, props.currentPage);
           }
         }}
       >
@@ -80,12 +89,14 @@ function mapStateToProps(state: RootState) {
   return {
     photos: state.photosReducer.photos,
     currentPage: state.photosReducer.currentPage,
-    isLoading: state.photosReducer.isLoading
+    isLoading: state.photosReducer.isLoading,
+    inputValue: state.searchBarReducer.inputValue,
   };
 }
 
 const mapDispatchToProps = {
   loadPhotos,
+  loadSearchedPhotos,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Photos);

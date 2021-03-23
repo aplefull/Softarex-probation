@@ -2,6 +2,7 @@ import {
   HIDE_LOADING,
   HIDE_MODAL,
   LOAD_PHOTOS,
+  PERFORM_SEARCH,
   SHOW_LOADING,
   SHOW_MODAL,
 } from './types';
@@ -24,6 +25,12 @@ export function photosReducer(
         ...state,
         photos: state.photos.concat(action.payload.photos),
         currentPage: state.currentPage + 1,
+      };
+    case PERFORM_SEARCH:
+      return {
+        ...state,
+        photos: [],
+        currentPage: 1,
       };
     case SHOW_LOADING:
       return { ...state, isLoading: true };
