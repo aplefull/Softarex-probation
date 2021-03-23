@@ -6,7 +6,10 @@ import Modal from './components/Container/Photos/Photo/Modal/Modal';
 import { useSelector } from 'react-redux';
 import { RootState } from './redux/rootReducer';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import NavBar from "./components/Header/NavBar/NavBar";
+import SearchHeader from './components/SearchHeader/SearchHeader';
+import Photos from './components/Container/Photos/Photos';
+import Loading from './components/Container/Loading/Loading';
+import styles from './components/Container/Container.module.scss';
 
 function App() {
   const isHidden = useSelector(
@@ -26,8 +29,12 @@ function App() {
         </Route>
         <Route exact path={'/search'}>
           <>
-            <NavBar isHidden={false}/>
-            <Container/>
+            <SearchHeader />
+            <div className={styles.container}>
+              <Photos />
+              <Loading />
+            </div>
+            <Modal isHidden={isHidden} />
           </>
         </Route>
       </Switch>
