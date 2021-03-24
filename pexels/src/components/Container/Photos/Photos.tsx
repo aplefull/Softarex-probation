@@ -2,60 +2,74 @@ import React, { useEffect } from 'react';
 import styles from './Photos.module.scss';
 import Photo from './Photo/Photo';
 import { connect } from 'react-redux';
-import { loadPhotos, loadSearchedPhotos } from '../../../redux/actions';
+import {
+  loadPhotos,
+  loadSearchedPhotos,
+  performSearch,
+} from '../../../redux/actions';
 import { InView } from 'react-intersection-observer';
 import { RootState } from '../../../redux/rootReducer';
 import { useLocation } from 'react-router-dom';
 
 interface PropTypes {
   photos: Array<any>;
+  newPhotos: Array<any>;
+  columnsArray: Array<any>;
   currentPage: number;
   inputValue: string;
   loadPhotos: Function;
   loadSearchedPhotos: Function;
+  performSearch: Function;
   isLoading: boolean;
 }
 
 function Photos(props: PropTypes) {
   const location = useLocation();
-
   useEffect(() => {
     if (location.pathname === '/') {
       props.loadPhotos(props.currentPage);
+    } else {
+      let searchQuery = decodeURIComponent(
+        (location.pathname.match(/(?<=\/)[^/]*$/) || [''])[0]
+      );
+      props.performSearch(searchQuery, props.currentPage);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // TODO properly sort photos by columns, change number of columns on resize
-  let columnsArray: Array<any> = [];
-  if (window.innerWidth < 624) {
-    columnsArray.push(props.photos);
+  //let columnsArray: Array<any> = [];
+
+  /*if (window.innerWidth < 624) {
+    columnsArray.push(props.newPhotos);
   } else if (window.innerWidth < 900) {
-    let chunkLength = Math.floor(props.photos.length / 2);
+    let chunkLength = Math.floor(props.newPhotos.length / 2);
     for (let i = 0; i < 2; i++) {
       columnsArray.push(
-        props.photos.slice(i * chunkLength, i * chunkLength + chunkLength)
+        props.newPhotos.slice(i * chunkLength, i * chunkLength + chunkLength)
       );
     }
   } else if (window.innerWidth < 1160) {
-    let chunkLength = Math.floor(props.photos.length / 3);
+    let chunkLength = Math.floor(props.newPhotos.length / 3);
     for (let i = 0; i < 3; i++) {
       columnsArray.push(
-        props.photos.slice(i * chunkLength, i * chunkLength + chunkLength)
+        props.newPhotos.slice(i * chunkLength, i * chunkLength + chunkLength)
       );
     }
   } else {
-    let chunkLength = Math.floor(props.photos.length / 4);
+    let chunkLength = Math.floor(props.newPhotos.length / 4);
     for (let i = 0; i < 4; i++) {
       columnsArray.push(
-        props.photos.slice(i * chunkLength, i * chunkLength + chunkLength)
+        props.newPhotos.slice(i * chunkLength, i * chunkLength + chunkLength)
       );
     }
-  }
+  }*/
+
+  //props.updateColumns(columnsArray);
 
   return (
     <div className={styles.photosColumns}>
-      {columnsArray.map((column: Array<any>, index: number) => (
+      {props.columnsArray.map((column: Array<any>, index: number) => (
         <div className={styles.photosColumn} key={index}>
           {column.map((photo: any, index: number) => (
             <Photo
@@ -75,7 +89,10 @@ function Photos(props: PropTypes) {
           if (inView && !props.isLoading && location.pathname === '/') {
             props.loadPhotos(props.currentPage);
           } else if (inView && !props.isLoading) {
-            props.loadSearchedPhotos(props.inputValue, props.currentPage);
+            let searchQuery = decodeURIComponent(
+              (location.pathname.match(/(?<=\/)[^/]*$/) || [''])[0]
+            );
+            props.loadSearchedPhotos(searchQuery, props.currentPage);
           }
         }}
       >
@@ -88,6 +105,8 @@ function Photos(props: PropTypes) {
 function mapStateToProps(state: RootState) {
   return {
     photos: state.photosReducer.photos,
+    newPhotos: state.photosReducer.newPhotos,
+    columnsArray: state.photosReducer.columnsArray,
     currentPage: state.photosReducer.currentPage,
     isLoading: state.photosReducer.isLoading,
     inputValue: state.searchBarReducer.inputValue,
@@ -97,6 +116,7 @@ function mapStateToProps(state: RootState) {
 const mapDispatchToProps = {
   loadPhotos,
   loadSearchedPhotos,
+  performSearch,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Photos);

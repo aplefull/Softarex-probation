@@ -36,9 +36,10 @@ function SearchBar(props: PropTypes) {
           props.handleInputChange(e.target.value);
         }}
         onKeyPress={(e: any) => {
-          if (e.code === 'Enter' && props.inputValue !== '') {
+          if (e.code === 'Enter' && props.inputValue.trim().length > 0) {
+            history.push(`/search/${encodeURIComponent(props.inputValue)}`);
+            window.scrollTo(0, 0);
             props.performSearch(props.inputValue, props.currentPage);
-            history.push('/search');
           }
         }}
       />
@@ -46,9 +47,10 @@ function SearchBar(props: PropTypes) {
         src={icon}
         alt="search icon"
         onClick={() => {
-          if (props.inputValue !== '') {
+          if (props.inputValue.trim().length > 0) {
+            history.push(`/search/${encodeURIComponent(props.inputValue)}`);
+            window.scrollTo(0, 0);
             props.performSearch(props.inputValue, props.currentPage);
-            history.push('/search');
           }
         }}
       />
