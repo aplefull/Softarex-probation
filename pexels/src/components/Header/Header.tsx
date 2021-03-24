@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { getHeaderImage } from '../../redux/actions';
 import { suggestionsArray } from '../../suggestions';
 import { useInView } from 'react-intersection-observer';
+import { Link } from 'react-router-dom';
 
 interface PropTypes {
   headerImage: string;
@@ -48,12 +49,9 @@ function Header(props: PropTypes) {
           <div className={styles.suggestionsWrapper}>
             {shuffledSuggestions.slice(0, 7).map((suggestion) => {
               return (
-                <a
-                  href={`/search/${suggestion}`}
-                  key={suggestion}
-                >
+                <Link to={`/search/${suggestion}`} key={suggestion}>
                   {suggestion}
-                </a>
+                </Link>
               );
             })}
             <a href={`https://www.pexels.com/popular-searches/`}>{'more'}</a>
