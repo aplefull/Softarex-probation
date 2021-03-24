@@ -7,10 +7,10 @@ import { ReactComponent as UserIcon } from '../../icons/user.svg';
 import { ReactComponent as OrientationIcon } from '../../icons/orientation.svg';
 import { ReactComponent as SizeIcon } from '../../icons/size.svg';
 import { ReactComponent as ColorIcon } from '../../icons/color.svg';
-import {useSelector} from "react-redux";
+import { useLocation } from 'react-router-dom';
 
 const SearchHeader = () => {
-  let title = useSelector((state: any) => state.searchBarReducer.inputValue);
+  let location = useLocation();
 
   return (
     <div className={styles.searchHeaderWrapper}>
@@ -48,7 +48,11 @@ const SearchHeader = () => {
           </div>
         </div>
       </div>
-      <h1>{title}</h1>
+      <h1>
+        {`${decodeURIComponent(
+          (location.pathname.match(/(?<=\/)[^/]*$/) || [''])[0]
+        )} Photos`}
+      </h1>
     </div>
   );
 };
