@@ -49,7 +49,7 @@ function Header(props: PropTypes) {
             {shuffledSuggestions.slice(0, 7).map((suggestion) => {
               return (
                 <a
-                  href={`https://www.pexels.com/search/${suggestion}`}
+                  href={`/search/${suggestion}`}
                   key={suggestion}
                 >
                   {suggestion}
