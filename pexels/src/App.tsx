@@ -27,7 +27,7 @@ function App() {
             <Modal isHidden={isHidden} />
           </>
         </Route>
-        <Route exact path={'/search'}>
+        <Route path={'/search'}>
           <>
             <SearchHeader />
             <div className={styles.container}>
