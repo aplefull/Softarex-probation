@@ -33,9 +33,9 @@ function Dropdown(props: PropTypes) {
         <ul>
           {sizeOptions.map((el: any, index: number) => {
             return (
-              <li key={index}>
+              <li key={index} className={`${selectedOption === el[0] ? styles.selected : ''}`}>
                 <label>
-                  <input type={'radio'} name={'size'} data-size={el[0]} />
+                  <input type={'radio'} name={'size'} data-size={el[0]} defaultChecked={selectedOption === el[0]}/>
                   <p>{el[0]}</p>
                 </label>
               </li>
