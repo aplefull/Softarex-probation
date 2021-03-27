@@ -7,3 +7,6 @@ export const SHOW_MODAL = 'SHOW_MODAL';
 export const CHANGE_SIZE_OPTION = 'CHANGE_SIZE_OPTION';
 export const INPUT_VALUE_CHANGE = 'INPUT_VALUE_CHANGE';
 export const PERFORM_SEARCH = 'PERFORM_SEARCH';
+export const INIT_LIKES = 'INIT_LIKES';
+export const ADD_LIKE = 'ADD_LIKE';
+export const REMOVE_LIKE = 'REMOVE_LIKE';

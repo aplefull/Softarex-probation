@@ -1,8 +1,11 @@
 import {
+  ADD_LIKE,
   HIDE_LOADING,
   HIDE_MODAL,
+  INIT_LIKES,
   LOAD_PHOTOS,
   PERFORM_SEARCH,
+  REMOVE_LIKE,
   SHOW_LOADING,
   SHOW_MODAL,
 } from './types';
@@ -15,6 +18,7 @@ const initialState = {
   isLoading: false,
   isHidden: true,
   modalID: null,
+  liked: [],
 };
 
 export function photosReducer(
@@ -59,6 +63,29 @@ export function photosReducer(
         columnsArray: [[], [], [], []],
         currentPage: 2,
       };
+    case INIT_LIKES:
+      return {
+        ...state,
+        liked: JSON.parse(localStorage.getItem('likes') ?? '[]'),
+      };
+    case ADD_LIKE: {
+      localStorage.setItem(
+        'likes',
+        JSON.stringify(state.liked.concat(action.payload))
+      );
+      return {
+        ...state,
+        liked: state.liked.concat(action.payload),
+      };
+    }
+    case REMOVE_LIKE: {
+      state.liked.splice(state.liked.indexOf(action.payload), 1);
+      localStorage.setItem('likes', JSON.stringify(state.liked));
+      return {
+        ...state,
+        liked: [...state.liked],
+      };
+    }
     case SHOW_LOADING:
       return { ...state, isLoading: true };
     case HIDE_LOADING:

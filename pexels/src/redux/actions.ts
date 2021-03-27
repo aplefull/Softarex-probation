@@ -8,6 +8,9 @@ import {
   CHANGE_SIZE_OPTION,
   INPUT_VALUE_CHANGE,
   PERFORM_SEARCH,
+  REMOVE_LIKE,
+  ADD_LIKE,
+  INIT_LIKES,
 } from './types';
 
 export function getHeaderImage() {
@@ -127,5 +130,31 @@ export function loadSearchedPhotos(value: string, page: number) {
     const json = await response.json();
     dispatch({ type: LOAD_PHOTOS, payload: json });
     dispatch(hideLoading());
+  };
+}
+
+export function initLikes() {
+  return (dispatch: Function) => {
+    dispatch({
+      type: INIT_LIKES,
+    });
+  };
+}
+
+export function addLike(id: string) {
+  return (dispatch: Function) => {
+    dispatch({
+      type: ADD_LIKE,
+      payload: id,
+    });
+  };
+}
+
+export function removeLike(id: string) {
+  return (dispatch: Function) => {
+    dispatch({
+      type: REMOVE_LIKE,
+      payload: id,
+    });
   };
 }
