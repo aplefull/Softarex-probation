@@ -37,36 +37,6 @@ function Photos(props: PropTypes) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // TODO properly sort photos by columns, change number of columns on resize
-  //let columnsArray: Array<any> = [];
-
-  /*if (window.innerWidth < 624) {
-    columnsArray.push(props.newPhotos);
-  } else if (window.innerWidth < 900) {
-    let chunkLength = Math.floor(props.newPhotos.length / 2);
-    for (let i = 0; i < 2; i++) {
-      columnsArray.push(
-        props.newPhotos.slice(i * chunkLength, i * chunkLength + chunkLength)
-      );
-    }
-  } else if (window.innerWidth < 1160) {
-    let chunkLength = Math.floor(props.newPhotos.length / 3);
-    for (let i = 0; i < 3; i++) {
-      columnsArray.push(
-        props.newPhotos.slice(i * chunkLength, i * chunkLength + chunkLength)
-      );
-    }
-  } else {
-    let chunkLength = Math.floor(props.newPhotos.length / 4);
-    for (let i = 0; i < 4; i++) {
-      columnsArray.push(
-        props.newPhotos.slice(i * chunkLength, i * chunkLength + chunkLength)
-      );
-    }
-  }*/
-
-  //props.updateColumns(columnsArray);
-
   return (
     <div className={styles.photosColumns}>
       {props.columnsArray.map((column: Array<any>, index: number) => (
