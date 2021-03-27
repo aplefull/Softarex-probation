@@ -63,32 +63,7 @@
       width: fit-content;
       margin-right: -0px;
       margin-left: auto;
-
-      .tab {
-        width: fit-content;
-        height: 37px;
-        margin-right: 10px;
-        padding: 10px;
-        border: 1px solid #e8e8e8;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 20px;
-        cursor: pointer;
-
-        .svgIcon {
-          color: #5e5e5e;
-          fill: #5e5e5e;
-          height: 110%;
-        }
-
-        p {
-          color: #5e5e5e;
-          font-size: 0.9rem;
-          font-weight: 500;
-          margin: 0 4px 0 4px;
-        }
-      }
+      position: relative;
     }
   }
 

@@ -4,13 +4,11 @@ import NavBar from '../Header/NavBar/NavBar';
 import { ReactComponent as PhotoIcon } from '../../icons/photo.svg';
 import { ReactComponent as VideoIcon } from '../../icons/video.svg';
 import { ReactComponent as UserIcon } from '../../icons/user.svg';
-import { ReactComponent as OrientationIcon } from '../../icons/orientation.svg';
-import { ReactComponent as SizeIcon } from '../../icons/size.svg';
-import { ReactComponent as ColorIcon } from '../../icons/color.svg';
 import { useLocation } from 'react-router-dom';
+import FilterButton from "./FilterButton/FilterButton";
 
-const SearchHeader = () => {
-  let location = useLocation();
+function SearchHeader() {
+  const location = useLocation();
 
   return (
     <div className={styles.searchHeaderWrapper}>
@@ -34,18 +32,9 @@ const SearchHeader = () => {
           </div>
         </div>
         <div className={styles.rightTabs}>
-          <div className={styles.tab}>
-            <OrientationIcon className={styles.svgIcon} />
-            <p>Orientation</p>
-          </div>
-          <div className={styles.tab}>
-            <SizeIcon className={styles.svgIcon} />
-            <p>Size</p>
-          </div>
-          <div className={styles.tab}>
-            <ColorIcon className={styles.svgIcon} />
-            <p>Color</p>
-          </div>
+          <FilterButton caption={'Orientation'} />
+          <FilterButton caption={'Size'} />
+          <FilterButton caption={'Color'} />
         </div>
       </div>
       <h1>
@@ -55,6 +44,6 @@ const SearchHeader = () => {
       </h1>
     </div>
   );
-};
+}
 
 export default SearchHeader;
