@@ -2,6 +2,7 @@ import React from 'react';
 import logo from '../../../images/logo.png';
 import icon from '../../../icons/ellipsis.svg';
 import SearchBar from '../SearchBar/SearchBar';
+import { Link } from 'react-router-dom';
 import styles from './NavBar.module.scss';
 
 interface PropTypes {
@@ -13,15 +14,15 @@ function NavBar(props: PropTypes) {
     <div
       className={`${styles.navbar} ${props.isHidden ? '' : styles.showColor}`}
     >
-      <a className={styles.navbar__logoWrapper} href={'/'}>
+      <a className={styles.logoWrapper} href={'/'}>
         <img src={logo} alt="logo" />
         <p>Pexels</p>
       </a>
       <SearchBar isHidden={props.isHidden} width={714} height={46} />
-      <div className={styles.navbar__navigationWrapper}>
+      <div className={styles.navigationWrapper}>
         <ul className={styles.navigationLinks}>
           <li>
-            <a href={'https://www.pexels.com/discover/'}>Explore</a>
+            <Link to={'/collection'}>Collection</Link>
           </li>
           <li>
             <a href={'https://www.pexels.com/license/'}>License</a>

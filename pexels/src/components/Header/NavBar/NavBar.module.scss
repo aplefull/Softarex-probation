@@ -9,7 +9,7 @@
   align-items: center;
   z-index: 3;
 
-  &__logoWrapper {
+  .logoWrapper {
     width: 120px;
     min-width: 120px;
     height: 100%;
@@ -42,10 +42,10 @@
     }
   }
 
-  &__navigationWrapper {
+  .navigationWrapper {
     display: flex;
     align-items: center;
-    width: 420px;
+    width: fit-content;
     height: 100%;
     margin: 0 -5px 0 auto;
 
@@ -83,6 +83,7 @@
     button {
       width: 86px;
       height: 38px;
+      margin-right: 20px;
       margin-left: 30px;
       border-radius: 3px;
       background-color: $button-color-green;
