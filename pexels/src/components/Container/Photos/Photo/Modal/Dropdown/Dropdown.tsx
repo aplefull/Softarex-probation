@@ -8,20 +8,19 @@ interface PropTypes {
 }
 
 function Dropdown(props: PropTypes) {
-  let sizeOptions: Array<any> = [];
+  let sizeOptions: any = [];
   let selectedOption = useSelector(
     (state: any) => state.dropdownReducer.selectedOption
   );
   let dispatch = useDispatch();
 
   if (props.photo?.src !== undefined) {
-    sizeOptions = Object.entries(props.photo.src).filter((el: Array<any>) => {
+    sizeOptions = Object.entries(props.photo.src).filter((el: any) => {
       return ['original', 'large', 'medium', 'small'].some(
         (val: string) => val === el[0]
       );
     });
   }
-
   return (
     <div className={styles.dropdownWrapper}>
       <p className={styles.text}>Choose a size:</p>

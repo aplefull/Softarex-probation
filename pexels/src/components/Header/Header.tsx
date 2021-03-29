@@ -7,6 +7,7 @@ import { getHeaderImage } from '../../redux/actions';
 import { suggestionsArray } from '../../suggestions';
 import { useInView } from 'react-intersection-observer';
 import { Link } from 'react-router-dom';
+import { RootState } from '../../redux/rootReducer';
 
 interface PropTypes {
   headerImage: string;
@@ -47,7 +48,7 @@ function Header(props: PropTypes) {
         <div className={styles.suggestedWrapper}>
           <p>Suggested:</p>
           <div className={styles.suggestionsWrapper}>
-            {shuffledSuggestions.slice(0, 7).map((suggestion) => {
+            {shuffledSuggestions.slice(0, 7).map((suggestion: string) => {
               return (
                 <Link to={`/search/${suggestion}`} key={suggestion}>
                   {suggestion}
@@ -70,14 +71,16 @@ function Header(props: PropTypes) {
   );
 }
 
-function mapStateToProps(state: any) {
+function mapStateToProps(state: RootState) {
   return {
     headerImage: state.headerReducer.headerImage,
     authorName: state.headerReducer.authorName,
     authorLink: state.headerReducer.authorLink,
   };
 }
+
 const mapDispatchToProps = {
   getHeaderImage,
 };
+
 export default connect(mapStateToProps, mapDispatchToProps)(Header);

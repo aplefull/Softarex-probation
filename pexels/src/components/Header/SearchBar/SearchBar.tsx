@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { ChangeEvent, KeyboardEvent } from 'react';
 import styles from './SearchBar.module.scss';
 import icon from '../../../icons/magnifying-glass.svg';
 import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { handleInputChange, performSearch } from '../../../redux/actions';
+import { RootState } from '../../../redux/rootReducer';
 
 interface PropTypes {
   isHidden?: boolean;
@@ -11,7 +12,7 @@ interface PropTypes {
   height?: number;
   inputValue: string;
   currentPage: number;
-  handleInputChange: any;
+  handleInputChange: Function;
   performSearch: Function;
 }
 
@@ -32,10 +33,10 @@ function SearchBar(props: PropTypes) {
         type="text"
         placeholder="Search for free photos"
         value={props.inputValue}
-        onChange={(e) => {
+        onChange={(e: ChangeEvent<HTMLInputElement>) => {
           props.handleInputChange(e.target.value);
         }}
-        onKeyPress={(e: any) => {
+        onKeyPress={(e: KeyboardEvent<HTMLInputElement>) => {
           if (e.code === 'Enter' && props.inputValue.trim().length > 0) {
             history.push(`/search/${encodeURIComponent(props.inputValue)}`);
             window.scrollTo(0, 0);
@@ -58,7 +59,7 @@ function SearchBar(props: PropTypes) {
   );
 }
 
-function mapStateToProps(state: any) {
+function mapStateToProps(state: RootState) {
   return {
     inputValue: state.searchBarReducer.inputValue,
     currentPage: state.photosReducer.currentPage,

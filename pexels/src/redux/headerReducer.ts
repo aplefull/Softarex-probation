@@ -1,19 +1,19 @@
 import { LOAD_HEADER_IMAGE } from './types';
 
-interface stateTypes {
+interface InitialHeaderStateTypes {
   headerImage: string;
   authorName: string;
   authorLink: string;
 }
 
-const initialState: stateTypes = {
+const initialState: InitialHeaderStateTypes = {
   headerImage: '',
   authorName: '',
   authorLink: '',
 };
 
 export function headerReducer(
-  state: Object = initialState,
+  state: InitialHeaderStateTypes = initialState,
   action: { type: string; payload?: any }
 ) {
   switch (action.type) {

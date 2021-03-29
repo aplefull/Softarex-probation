@@ -1,11 +1,15 @@
 import { INPUT_VALUE_CHANGE } from './types';
 
-const initialState = {
+interface InitialSearchbarStateTypes {
+  inputValue: string;
+}
+
+const initialState: InitialSearchbarStateTypes = {
   inputValue: '',
 };
 
 export function searchBarReducer(
-  state: any = initialState,
+  state: InitialSearchbarStateTypes = initialState,
   action: { type: string; payload?: any }
 ) {
   switch (action.type) {
