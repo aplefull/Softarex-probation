@@ -10,7 +10,7 @@ import {
   PERFORM_SEARCH,
   REMOVE_LIKE,
   ADD_LIKE,
-  INIT_LIKES,
+  INIT_LIKES, INIT_COLLECTIBLES, ADD_COLLECTIBLE, REMOVE_COLLECTIBLE, LOAD_COLLECTION_PHOTOS, CHANGE_COLUMNS_NUMBER,
 } from './types';
 
 export function getHeaderImage() {
@@ -85,11 +85,28 @@ export function changeSizeOption(option: string) {
   };
 }
 
+export function handleWindowResize(number: number) {
+  return (dispatch: Function) => {
+    dispatch({
+      type: CHANGE_COLUMNS_NUMBER,
+      payload: number,
+    });
+  };
+}
+
 export function handleInputChange(value: string) {
   return (dispatch: Function) => {
     dispatch({
       type: INPUT_VALUE_CHANGE,
       payload: value,
+    });
+  };
+}
+
+export function clearPhotos() {
+  return (dispatch: Function) => {
+    dispatch({
+      type: PERFORM_SEARCH
     });
   };
 }
@@ -141,7 +158,7 @@ export function initLikes() {
   };
 }
 
-export function addLike(id: string) {
+export function addLike(id: number) {
   return (dispatch: Function) => {
     dispatch({
       type: ADD_LIKE,
@@ -150,11 +167,55 @@ export function addLike(id: string) {
   };
 }
 
-export function removeLike(id: string) {
+export function removeLike(id: number) {
   return (dispatch: Function) => {
     dispatch({
       type: REMOVE_LIKE,
       payload: id,
     });
+  };
+}
+
+export function initCollectibles() {
+  return (dispatch: Function) => {
+    dispatch({
+      type: INIT_COLLECTIBLES,
+    });
+  };
+}
+
+export function addCollectible(url: string) {
+  return (dispatch: Function) => {
+    dispatch({
+      type: ADD_COLLECTIBLE,
+      payload: url,
+    });
+  };
+}
+
+export function removeCollectible(url: string) {
+  return (dispatch: Function) => {
+    dispatch({
+      type: REMOVE_COLLECTIBLE,
+      payload: url,
+    });
+  };
+}
+
+export function loadCollectionPhotos(id: number) {
+  return async (dispatch: Function) => {
+    dispatch(showLoading());
+    const response = await fetch(
+        `https://api.pexels.com/v1/photos/${id}`,
+        {
+          headers: {
+            Authorization:
+                '563492ad6f917000010000014640aabb4e9d420cbe1c0df7daf4c2bf',
+          },
+        }
+    );
+    const json = await response.json();
+    dispatch({ type: LOAD_COLLECTION_PHOTOS, payload: json });
+    dispatch(hideLoading());
   };
 }
