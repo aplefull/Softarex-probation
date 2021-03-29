@@ -1,37 +1,51 @@
-import React from 'react';
+import React, { MouseEvent } from 'react';
 import { connect } from 'react-redux';
 import styles from './Modal.module.scss';
 import closeIcon from '../../../../../icons/close.svg';
 import { ReactComponent as HeartIcon } from '../../../../../icons/heart.svg';
 import { ReactComponent as HeartFilledIcon } from '../../../../../icons/heart-filled.svg';
 import { ReactComponent as AddIcon } from '../../../../../icons/add.svg';
+import { ReactComponent as AddCircledIcon } from '../../../../../icons/check-mark-circled.svg';
 import dropdownIcon from '../../../../../icons/dropdown.svg';
-import { addLike, hideModal, removeLike } from '../../../../../redux/actions';
+import {
+  addCollectible,
+  addLike,
+  hideModal,
+  removeCollectible,
+  removeLike,
+} from '../../../../../redux/actions';
 import Dropdown from './Dropdown/Dropdown';
+import { PhotoObjectTypes } from '../../../../../redux/photosReducer';
+import { RootState } from '../../../../../redux/rootReducer';
 
 interface PropTypes {
   isHidden: boolean;
   modalID: number;
-  photos: Array<any>;
-  liked: Array<string>;
+  photos: PhotoObjectTypes[];
+  liked: number[];
+  collected: number[];
   hideModal: Function;
   addLike: Function;
   removeLike: Function;
+  addCollectible: Function;
+  removeCollectible: Function;
 }
 
 function Modal(props: PropTypes) {
   if (props.isHidden) document.body.style.overflow = '';
   else document.body.style.overflow = 'hidden';
-
-  let openedPhoto: any =
-    props?.photos.filter((photo: any) => photo.id === props.modalID)[0] || null;
+  let openedPhoto: PhotoObjectTypes | null =
+    props?.photos.filter(
+      (photo: PhotoObjectTypes) => photo.id === props.modalID
+    )[0] || null;
 
   return (
     <div
       className={`${styles.overlay} ${props.isHidden ? styles.hidden : ''}`}
       data-type={'overlay'}
-      onClick={(e: any) => {
-        if (e.target.dataset?.type === 'overlay') {
+      onClick={(e: MouseEvent<HTMLDivElement>) => {
+        const target = e.target as HTMLDivElement;
+        if (target.dataset?.type === 'overlay') {
           props.hideModal();
         }
       }}
@@ -56,8 +70,8 @@ function Modal(props: PropTypes) {
           <div className={styles.actionsSection}>
             <button
               className={`${styles.whiteButton} ${styles.btnLarge}`}
-              onClick={(e: any) => {
-                if (props.liked.includes(openedPhoto?.id)) {
+              onClick={() => {
+                if (openedPhoto?.id && props.liked.includes(openedPhoto.id)) {
                   props.removeLike(openedPhoto?.id);
                 } else {
                   props.addLike(openedPhoto?.id);
@@ -65,14 +79,37 @@ function Modal(props: PropTypes) {
               }}
             >
               {props.liked.includes(openedPhoto?.id) ? (
-                <HeartFilledIcon />
+                <>
+                  <HeartFilledIcon /> Liked
+                </>
               ) : (
-                <HeartIcon />
+                <>
+                  <HeartIcon /> Like
+                </>
               )}
-              Like
             </button>
-            <button className={`${styles.whiteButton} ${styles.btnLarge}`}>
-              <AddIcon /> Collect
+            <button
+              className={`${styles.whiteButton} ${styles.btnLarge}`}
+              onClick={() => {
+                if (
+                  openedPhoto?.id &&
+                  props.collected.includes(openedPhoto?.id)
+                ) {
+                  props.removeCollectible(openedPhoto?.id);
+                } else {
+                  props.addCollectible(openedPhoto?.id);
+                }
+              }}
+            >
+              {props.collected.includes(openedPhoto?.id) ? (
+                <>
+                  <AddCircledIcon /> Collected
+                </>
+              ) : (
+                <>
+                  <AddIcon /> Collect
+                </>
+              )}
             </button>
             <div className={styles.downloadButtonWrapper}>
               <a
@@ -94,11 +131,12 @@ function Modal(props: PropTypes) {
   );
 }
 
-function mapStateToProps(state: any) {
+function mapStateToProps(state: RootState) {
   return {
     modalID: state.photosReducer.modalID,
     photos: state.photosReducer.photos,
     liked: state.photosReducer.liked,
+    collected: state.photosReducer.collected,
   };
 }
 
@@ -106,6 +144,8 @@ const mapDispatchToProps = {
   hideModal,
   addLike,
   removeLike,
+  addCollectible,
+  removeCollectible,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Modal);
