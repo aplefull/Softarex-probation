@@ -1,30 +1,43 @@
-import React from 'react';
+import React, { MouseEvent } from 'react';
 import styles from './Photo.module.scss';
 import { ReactComponent as DownloadIcon } from '../../../../icons/download.svg';
 import { ReactComponent as HeartIcon } from '../../../../icons/heart.svg';
 import { ReactComponent as HeartFilledIcon } from '../../../../icons/heart-filled.svg';
 import { ReactComponent as AddIcon } from '../../../../icons/add.svg';
+import { ReactComponent as AddCircledIcon } from '../../../../icons/check-mark-circled.svg';
 import { connect } from 'react-redux';
-import { addLike, removeLike, showModal } from '../../../../redux/actions';
+import {
+  addCollectible,
+  addLike,
+  removeCollectible,
+  removeLike,
+  showModal,
+} from '../../../../redux/actions';
+import { RootState } from '../../../../redux/rootReducer';
 
 interface PropTypes {
   photoLink: string;
   photographerURL: string;
   photographerName: string;
-  photoId: string;
+  photoId: number;
+  photoURL: string;
   isHidden: boolean;
-  liked: Array<string>;
+  liked: Array<number>;
+  collected: Array<number>;
   showModal: Function;
   addLike: Function;
   removeLike: Function;
+  addCollectible: Function;
+  removeCollectible: Function;
 }
 
 function Photo(props: PropTypes) {
   return (
     <div
       className={styles.photoWrapper}
-      onClick={(e: any) => {
-        if (e.target.dataset?.type === 'photo') {
+      onClick={(e: MouseEvent<HTMLDivElement>) => {
+        const target = e.target as HTMLDivElement;
+        if (target.dataset?.type === 'photo') {
           props.showModal(props.photoId);
         }
       }}
@@ -44,12 +57,32 @@ function Photo(props: PropTypes) {
             <DownloadIcon />
           </a>
           <span>
-            <AddIcon />
+            {props.collected.includes(props.photoId) ? (
+              <AddCircledIcon
+                onClick={() => {
+                  if (props.collected.includes(props.photoId)) {
+                    props.removeCollectible(props.photoId);
+                  } else {
+                    props.addCollectible(props.photoId);
+                  }
+                }}
+              />
+            ) : (
+              <AddIcon
+                onClick={() => {
+                  if (props.collected.includes(props.photoId)) {
+                    props.removeCollectible(props.photoId);
+                  } else {
+                    props.addCollectible(props.photoId);
+                  }
+                }}
+              />
+            )}
           </span>
           <span>
             {props.liked.includes(props.photoId) ? (
               <HeartFilledIcon
-                onClick={(e: any) => {
+                onClick={() => {
                   if (props.liked.includes(props.photoId)) {
                     props.removeLike(props.photoId);
                   } else {
@@ -59,7 +92,7 @@ function Photo(props: PropTypes) {
               />
             ) : (
               <HeartIcon
-                onClick={(e: any) => {
+                onClick={() => {
                   if (props.liked.includes(props.photoId)) {
                     props.removeLike(props.photoId);
                   } else {
@@ -75,10 +108,11 @@ function Photo(props: PropTypes) {
   );
 }
 
-function mapStateToProps(state: any) {
+function mapStateToProps(state: RootState) {
   return {
     isHidden: state.photosReducer.isHidden,
     liked: state.photosReducer.liked,
+    collected: state.photosReducer.collected,
   };
 }
 
@@ -86,6 +120,8 @@ const dispatchStateToProps = {
   showModal,
   addLike,
   removeLike,
+  addCollectible,
+  removeCollectible,
 };
 
 export default connect(mapStateToProps, dispatchStateToProps)(Photo);
