@@ -94,10 +94,14 @@ function renderDropdown(str: string) {
             <li>
               <div className={styles.inputWrapper}>
                 <div className={styles.colorSwatchWrapper}>
-                  <span className={styles.colorSwatch}/>
+                  <span className={styles.colorSwatch} />
                   <p>#</p>
                 </div>
-                <input type="text" className={styles.colorInput} placeholder={'Enter hex or select color'}/>
+                <input
+                  type="text"
+                  className={styles.colorInput}
+                  placeholder={'Enter hex or select color'}
+                />
               </div>
             </li>
             <li>
@@ -123,7 +127,7 @@ function renderDropdown(str: string) {
   }
 }
 
-const FilterButton = (props: PropTypes) => {
+function FilterButton(props: PropTypes) {
   return (
     <>
       <div className={styles.tab}>
@@ -133,6 +137,6 @@ const FilterButton = (props: PropTypes) => {
       {renderDropdown(props.caption)}
     </>
   );
-};
+}
 
 export default FilterButton;
