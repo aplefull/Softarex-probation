@@ -3,6 +3,7 @@ import styles from './Photos.module.scss';
 import Photo from './Photo/Photo';
 import { connect } from 'react-redux';
 import {
+  handleWindowResize,
   loadPhotos,
   loadSearchedPhotos,
   performSearch,
@@ -10,21 +11,39 @@ import {
 import { InView } from 'react-intersection-observer';
 import { RootState } from '../../../redux/rootReducer';
 import { useLocation } from 'react-router-dom';
+import { PhotoObjectTypes } from '../../../redux/photosReducer';
 
 interface PropTypes {
-  photos: Array<any>;
-  newPhotos: Array<any>;
-  columnsArray: Array<any>;
+  photos: PhotoObjectTypes[];
   currentPage: number;
   inputValue: string;
+  isLoading: boolean;
+  columnsNumber: number;
   loadPhotos: Function;
   loadSearchedPhotos: Function;
   performSearch: Function;
-  isLoading: boolean;
+  handleWindowResize: Function;
 }
 
 function Photos(props: PropTypes) {
   const location = useLocation();
+
+  function handleResize() {
+    let number: number;
+
+    if (window.innerWidth < 624) {
+      number = 1;
+    } else if (window.innerWidth < 900) {
+      number = 2;
+    } else if (window.innerWidth < 1160) {
+      number = 3;
+    } else {
+      number = 4;
+    }
+
+    props.handleWindowResize(number);
+  }
+
   useEffect(() => {
     if (location.pathname === '/') {
       props.loadPhotos(props.currentPage);
@@ -34,16 +53,28 @@ function Photos(props: PropTypes) {
       );
       props.performSearch(searchQuery, props.currentPage);
     }
+
+    window.addEventListener('resize', () => {
+      handleResize();
+    });
+    handleResize();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  let columnsArray: PhotoObjectTypes[][] = [...new Array(props.columnsNumber)].map(() => []);
+
+  for (let i = 0; i < props.photos.length; i++) {
+    columnsArray[i % columnsArray.length].push(props.photos[i]);
+  }
+
   return (
     <div className={styles.photosColumns}>
-      {props.columnsArray.map((column: Array<any>, index: number) => (
+      {columnsArray.map((column: PhotoObjectTypes[], index: number) => (
         <div className={styles.photosColumn} key={index}>
-          {column.map((photo: any, index: number) => (
+          {column.map((photo: PhotoObjectTypes, index: number) => (
             <Photo
               photoLink={`${photo.src.original}?auto=compress&cs=tinysrgb&dpr=1&w=800`}
+              photoURL={photo.url}
               photographerURL={photo.photographer_url}
               photographerName={photo.photographer}
               photoId={photo.id}
@@ -75,10 +106,9 @@ function Photos(props: PropTypes) {
 function mapStateToProps(state: RootState) {
   return {
     photos: state.photosReducer.photos,
-    newPhotos: state.photosReducer.newPhotos,
-    columnsArray: state.photosReducer.columnsArray,
     currentPage: state.photosReducer.currentPage,
     isLoading: state.photosReducer.isLoading,
+    columnsNumber: state.photosReducer.columnsNumber,
     inputValue: state.searchBarReducer.inputValue,
   };
 }
@@ -87,6 +117,7 @@ const mapDispatchToProps = {
   loadPhotos,
   loadSearchedPhotos,
   performSearch,
+  handleWindowResize,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Photos);
