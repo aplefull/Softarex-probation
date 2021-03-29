@@ -10,7 +10,9 @@ import SearchHeader from './components/SearchHeader/SearchHeader';
 import Photos from './components/Container/Photos/Photos';
 import Loading from './components/Container/Loading/Loading';
 import styles from './components/Container/Container.module.scss';
-import { initLikes } from './redux/actions';
+import { initCollectibles, initLikes } from './redux/actions';
+import Collection from './components/Collection/Collection';
+import NavBar from "./components/Header/NavBar/NavBar";
 
 function App() {
   const isHidden = useSelector(
@@ -20,6 +22,7 @@ function App() {
 
   useEffect(() => {
     dispatch(initLikes());
+    dispatch(initCollectibles());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -43,6 +46,11 @@ function App() {
             </div>
             <Modal isHidden={isHidden} />
           </>
+        </Route>
+        <Route exact path={'/collection'}>
+          <NavBar isHidden={false}></NavBar>
+          <Collection />
+          <Modal isHidden={isHidden}/>
         </Route>
       </Switch>
     </BrowserRouter>
