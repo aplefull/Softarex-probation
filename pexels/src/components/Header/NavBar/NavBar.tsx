@@ -18,7 +18,7 @@ function NavBar(props: PropTypes) {
         <img src={logo} alt="logo" />
         <p>Pexels</p>
       </a>
-      <SearchBar isHidden={props.isHidden} width={714} height={46} />
+      <SearchBar isHidden={props.isHidden} width={714} height={46}/>
       <div className={styles.navigationWrapper}>
         <ul className={styles.navigationLinks}>
           <li>

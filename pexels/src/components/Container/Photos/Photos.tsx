@@ -67,6 +67,10 @@ function Photos(props: PropTypes) {
     columnsArray[i % columnsArray.length].push(props.photos[i]);
   }
 
+  if (props.photos.length === 0 && !props.isLoading) return (
+      <h2 className={styles.noMatches}>We couldn't find anything...</h2>
+  )
+
   return (
     <div className={styles.photosColumns}>
       {columnsArray.map((column: PhotoObjectTypes[], index: number) => (

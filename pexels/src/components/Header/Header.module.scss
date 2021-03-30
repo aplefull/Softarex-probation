@@ -58,6 +58,10 @@ header {
       p {
         color: #fff;
         font-size: 0.9rem;
+
+        @media screen and (max-width: 550px) {
+          display: none;
+        }
       }
 
       .suggestionsWrapper {
@@ -65,6 +69,7 @@ header {
         align-items: center;
         gap: 5px;
         margin-left: 5px;
+        overflow-y: auto;
 
         a {
           color: #fff;

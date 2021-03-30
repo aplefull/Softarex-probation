@@ -113,6 +113,17 @@
       }
     }
 
+    @media screen and (max-width: 450px) {
+      li:first-child {
+        a {
+          width: 90px;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          overflow: hidden;
+        }
+      }
+    }
+
     button {
       width: 86px;
       height: 38px;
@@ -129,6 +140,13 @@
       &:hover {
         background-color: $button-color-green-hover;
       }
+    }
+  }
+
+  @media screen and (max-width: 400px) {
+    input {
+      width: 50px;
+      padding-right: 7px;
     }
   }
 }
