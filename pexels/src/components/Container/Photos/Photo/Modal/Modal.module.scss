@@ -11,6 +11,7 @@
   justify-content: center;
   align-items: center;
   background-color: rgba(0, 0, 0, 0.6);
+  overflow-y: auto;
 
   .exitButton {
     position: absolute;
@@ -25,6 +26,8 @@
       height: 100%;
       filter: invert(1);
       opacity: 0.6;
+      position: relative;
+      z-index: 2;
     }
 
     &:hover {
@@ -32,11 +35,37 @@
         opacity: 1;
       }
     }
+
+    @media screen and (max-width: 1000px) and (min-width: 800px){
+      top: 15px;
+      left: 15px;
+    }
+
+    @media screen and (max-width: 800px) and (min-width: 750px){
+      top: 10px;
+      left: 10px;
+    }
+
+    @media screen and (max-width: 750px) and (min-width: 450px){
+      top: 45px;
+      left: 40px;
+
+      img {
+        filter: invert(0);
+      }
+    }
+
+    @media screen and (max-width: 450px){
+      display: none;
+    }
   }
 
   .contentWrapper {
+    position: absolute;
+    top: 30px;
     width: 90%;
     height: 90vh;
+    min-height: 500px;
     border-radius: 5px;
     background-color: $color-white;
     padding: 20px;
@@ -50,6 +79,12 @@
       display: flex;
       margin-bottom: 20px;
 
+      @media screen and (max-width: 600px) {
+        height: fit-content;
+        justify-content: center;
+        display: flex;
+      }
+
       .authorSection {
         display: flex;
         align-items: center;
@@ -62,6 +97,16 @@
           text-decoration: none;
           outline: none;
         }
+
+        @media screen and (max-width: 900px) {
+          a {
+            display: none;
+          }
+        }
+
+        @media screen and (max-width: 750px) {
+          display: none;
+        }
       }
 
       .actionsSection {
@@ -69,6 +114,11 @@
         align-items: center;
         justify-content: space-between;
         margin-left: auto;
+
+        .btnWrapper {
+          display: flex;
+          align-items: center;
+        }
 
         .downloadButtonWrapper {
           width: 190px;
@@ -125,11 +175,46 @@
             }
           }
         }
+
+        @media screen and (max-width: 600px) {
+          flex-direction: column;
+          align-items: center;
+          margin-left: 0;
+
+          .btnWrapper {
+            justify-content: center;
+            margin-bottom: 20px;
+
+            .whiteButton:last-child {
+              margin-right: 0;
+            }
+          }
+
+          .downloadButtonWrapper {
+            width: 100%;
+          }
+        }
       }
     }
 
     img {
-      height: 80%;
+      max-height: 80%;
+      max-width: 90%;
+
+      @media screen and (max-width: 600px) and (min-width: 550px) {
+        height: auto;
+        width: 50%;
+      }
+
+      @media screen and (max-width: 550px) and (min-width: 400px) {
+        height: auto;
+        width: 60%;
+      }
+
+      @media screen and (max-width: 400px) {
+        height: auto;
+        width: 80%;
+      }
     }
   }
 }

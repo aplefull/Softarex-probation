@@ -37,9 +37,26 @@
       }
     }
 
+    @media only screen and (max-width: 1000px) {
+      width: fit-content;
+      min-width: initial;
+
+      p {
+        display: none;
+      }
+    }
+
     & + div {
       margin-right: 20px;
     }
+  }
+
+  @media only screen and (max-width: 500px) {
+    .logoWrapper {
+      display: none;
+    }
+
+    padding-left: 30px;
   }
 
   .navigationWrapper {
@@ -77,6 +94,22 @@
           filter: invert(1);
           cursor: pointer;
         }
+      }
+    }
+
+    @media screen and (max-width: 1000px) {
+      li:not(:first-child) {
+        display: none;
+      }
+    }
+
+    @media screen and (max-width: 850px) {
+      li:first-child {
+        margin-right: 25px;
+      }
+
+      button {
+        display: none;
       }
     }
 

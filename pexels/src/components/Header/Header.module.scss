@@ -32,9 +32,16 @@ header {
     }
   }
 
+  @media screen and (max-width: 850px) {
+    .authorLink {
+      display: none;
+    }
+  }
+
   .headerContentWrapper {
-    width: 100%;
-    max-width: 700px;
+    width: 700px;
+    max-width: 100%;
+    padding: 0 25px 0 25px;
     display: flex;
     flex-direction: column;
 
@@ -64,6 +71,7 @@ header {
           font-size: 0.8rem;
           opacity: 0.8;
           text-decoration: none;
+          white-space: nowrap;
 
           &:hover {
             opacity: 1;

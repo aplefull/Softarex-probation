@@ -68,49 +68,51 @@ function Modal(props: PropTypes) {
             <button className={styles.whiteButton}>Donate</button>
           </div>
           <div className={styles.actionsSection}>
-            <button
-              className={`${styles.whiteButton} ${styles.btnLarge}`}
-              onClick={() => {
-                if (openedPhoto?.id && props.liked.includes(openedPhoto.id)) {
-                  props.removeLike(openedPhoto?.id);
-                } else {
-                  props.addLike(openedPhoto?.id);
-                }
-              }}
-            >
-              {props.liked.includes(openedPhoto?.id) ? (
-                <>
-                  <HeartFilledIcon /> Liked
-                </>
-              ) : (
-                <>
-                  <HeartIcon /> Like
-                </>
-              )}
-            </button>
-            <button
-              className={`${styles.whiteButton} ${styles.btnLarge}`}
-              onClick={() => {
-                if (
-                  openedPhoto?.id &&
-                  props.collected.includes(openedPhoto?.id)
-                ) {
-                  props.removeCollectible(openedPhoto?.id);
-                } else {
-                  props.addCollectible(openedPhoto?.id);
-                }
-              }}
-            >
-              {props.collected.includes(openedPhoto?.id) ? (
-                <>
-                  <AddCircledIcon /> Collected
-                </>
-              ) : (
-                <>
-                  <AddIcon /> Collect
-                </>
-              )}
-            </button>
+            <div className={styles.btnWrapper}>
+              <button
+                  className={`${styles.whiteButton} ${styles.btnLarge}`}
+                  onClick={() => {
+                    if (openedPhoto?.id && props.liked.includes(openedPhoto.id)) {
+                      props.removeLike(openedPhoto?.id);
+                    } else {
+                      props.addLike(openedPhoto?.id);
+                    }
+                  }}
+              >
+                {props.liked.includes(openedPhoto?.id) ? (
+                    <>
+                      <HeartFilledIcon /> Liked
+                    </>
+                ) : (
+                    <>
+                      <HeartIcon /> Like
+                    </>
+                )}
+              </button>
+              <button
+                  className={`${styles.whiteButton} ${styles.btnLarge}`}
+                  onClick={() => {
+                    if (
+                        openedPhoto?.id &&
+                        props.collected.includes(openedPhoto?.id)
+                    ) {
+                      props.removeCollectible(openedPhoto?.id);
+                    } else {
+                      props.addCollectible(openedPhoto?.id);
+                    }
+                  }}
+              >
+                {props.collected.includes(openedPhoto?.id) ? (
+                    <>
+                      <AddCircledIcon /> Collected
+                    </>
+                ) : (
+                    <>
+                      <AddIcon /> Collect
+                    </>
+                )}
+              </button>
+            </div>
             <div className={styles.downloadButtonWrapper}>
               <a
                 href={`https://pexels.com/photo/${openedPhoto?.id}/download`}
