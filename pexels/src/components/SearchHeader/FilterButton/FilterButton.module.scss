@@ -64,12 +64,30 @@
     padding: 10px 0 10px 0;
     margin: 0;
 
+    .selected {
+      p {
+        color: #0064f9;
+      }
+
+      svg:last-child {
+        visibility: visible;
+      }
+
+      svg:first-child path {
+        fill: #0064f9;
+      }
+    }
+
     li {
       list-style-type: none;
       display: flex;
       align-items: center;
       padding: 10px 15px 10px 20px;
       cursor: pointer;
+
+      svg:last-child {
+        visibility: hidden;
+      }
 
       p {
         font-size: 0.88rem;
@@ -173,6 +191,22 @@
           width: 45px;
           height: 24px;
           cursor: pointer;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+
+          svg {
+            visibility: hidden;
+            path {
+              fill: white;
+            }
+          }
+        }
+
+        .selectedColor {
+          svg {
+            visibility: visible;
+          }
         }
 
         .red {
@@ -210,6 +244,10 @@
         .white {
           background-color: #ffffff;
           box-shadow: inset 0 0 1px 1px #e8e8e8;
+
+          svg {
+            filter: invert(1);
+          }
         }
 
         .black {

@@ -10,7 +10,15 @@ import {
   PERFORM_SEARCH,
   REMOVE_LIKE,
   ADD_LIKE,
-  INIT_LIKES, INIT_COLLECTIBLES, ADD_COLLECTIBLE, REMOVE_COLLECTIBLE, LOAD_COLLECTION_PHOTOS, CHANGE_COLUMNS_NUMBER,
+  INIT_LIKES,
+  INIT_COLLECTIBLES,
+  ADD_COLLECTIBLE,
+  REMOVE_COLLECTIBLE,
+  LOAD_COLLECTION_PHOTOS,
+  CHANGE_COLUMNS_NUMBER,
+  CHANGE_COLOR_FILTER,
+  CHANGE_ORIENTATION_FILTER,
+  CHANGE_SIZE_FILTER,
 } from './types';
 
 export function getHeaderImage() {
@@ -106,7 +114,7 @@ export function handleInputChange(value: string) {
 export function clearPhotos() {
   return (dispatch: Function) => {
     dispatch({
-      type: PERFORM_SEARCH
+      type: PERFORM_SEARCH,
     });
   };
 }
@@ -205,17 +213,32 @@ export function removeCollectible(url: string) {
 export function loadCollectionPhotos(id: number) {
   return async (dispatch: Function) => {
     dispatch(showLoading());
-    const response = await fetch(
-        `https://api.pexels.com/v1/photos/${id}`,
-        {
-          headers: {
-            Authorization:
-                '563492ad6f917000010000014640aabb4e9d420cbe1c0df7daf4c2bf',
-          },
-        }
-    );
+    const response = await fetch(`https://api.pexels.com/v1/photos/${id}`, {
+      headers: {
+        Authorization:
+          '563492ad6f917000010000014640aabb4e9d420cbe1c0df7daf4c2bf',
+      },
+    });
     const json = await response.json();
     dispatch({ type: LOAD_COLLECTION_PHOTOS, payload: json });
     dispatch(hideLoading());
+  };
+}
+
+export function changeSizeFilter(size: string) {
+  return (dispatch: Function) => {
+    dispatch({ type: CHANGE_SIZE_FILTER, payload: size });
+  };
+}
+
+export function changeOrientationFilter(orientation: string) {
+  return (dispatch: Function) => {
+    dispatch({ type: CHANGE_ORIENTATION_FILTER, payload: orientation });
+  };
+}
+
+export function changeColorFilter(color: string) {
+  return (dispatch: Function) => {
+    dispatch({ type: CHANGE_COLOR_FILTER, payload: color });
   };
 }
