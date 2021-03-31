@@ -156,7 +156,7 @@ function FilterButton(props: PropTypes) {
                   <input
                     type="text"
                     className={styles.colorInput}
-                    placeholder={'Enter hex or select color'}
+                    placeholder={'Doesn\'t work yet'} //Enter hex or select color
                   />
                 </div>
               </li>
