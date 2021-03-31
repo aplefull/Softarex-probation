@@ -23,6 +23,9 @@ interface PropTypes {
   loadSearchedPhotos: Function;
   performSearch: Function;
   handleWindowResize: Function;
+  color: string;
+  size: string;
+  orientation: string;
 }
 
 function Photos(props: PropTypes) {
@@ -97,6 +100,11 @@ function Photos(props: PropTypes) {
             let searchQuery = decodeURIComponent(
               (location.pathname.match(/(?<=\/)[^/]*$/) || [''])[0]
             );
+
+            if (props.color !== 'all') searchQuery += `&color=${props.color}`;
+            if (props.color !== 'all') searchQuery += `&size=${props.size}`;
+            if (props.color !== 'all') searchQuery += `&orientation=${props.orientation}`;
+
             props.loadSearchedPhotos(searchQuery, props.currentPage);
           }
         }}
@@ -114,6 +122,9 @@ function mapStateToProps(state: RootState) {
     isLoading: state.photosReducer.isLoading,
     columnsNumber: state.photosReducer.columnsNumber,
     inputValue: state.searchBarReducer.inputValue,
+    color: state.filterReducer.color,
+    size: state.filterReducer.size,
+    orientation: state.filterReducer.orientation
   };
 }
 

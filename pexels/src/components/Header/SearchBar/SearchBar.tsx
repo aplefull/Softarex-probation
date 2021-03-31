@@ -12,6 +12,9 @@ interface PropTypes {
   height?: number;
   inputValue: string;
   currentPage: number;
+  color: string;
+  size: string;
+  orientation: string;
   handleInputChange: Function;
   performSearch: Function;
 }
@@ -40,7 +43,13 @@ function SearchBar(props: PropTypes) {
           if (e.code === 'Enter' && props.inputValue.trim().length > 0) {
             history.push(`/search/${encodeURIComponent(props.inputValue)}`);
             window.scrollTo(0, 0);
-            props.performSearch(props.inputValue, props.currentPage);
+            let searchQuery = props.inputValue;
+
+            if (props.color !== 'all') searchQuery += `&color=${props.color}`;
+            if (props.color !== 'all') searchQuery += `&size=${props.size}`;
+            if (props.color !== 'all') searchQuery += `&orientation=${props.orientation}`;
+
+            props.performSearch(searchQuery, props.currentPage);
           }
         }}
       />
@@ -51,7 +60,13 @@ function SearchBar(props: PropTypes) {
           if (props.inputValue.trim().length > 0) {
             history.push(`/search/${encodeURIComponent(props.inputValue)}`);
             window.scrollTo(0, 0);
-            props.performSearch(props.inputValue, props.currentPage);
+            let searchQuery = props.inputValue;
+
+            if (props.color !== 'all') searchQuery += `&color=${props.color}`;
+            if (props.color !== 'all') searchQuery += `&size=${props.size}`;
+            if (props.color !== 'all') searchQuery += `&orientation=${props.orientation}`;
+
+            props.performSearch(searchQuery, props.currentPage);
           }
         }}
       />
@@ -63,6 +78,9 @@ function mapStateToProps(state: RootState) {
   return {
     inputValue: state.searchBarReducer.inputValue,
     currentPage: state.photosReducer.currentPage,
+    color: state.filterReducer.color,
+    size: state.filterReducer.size,
+    orientation: state.filterReducer.orientation,
   };
 }
 
