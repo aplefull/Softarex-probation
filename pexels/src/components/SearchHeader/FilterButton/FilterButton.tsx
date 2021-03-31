@@ -1,4 +1,4 @@
-import React, { MouseEvent } from 'react';
+import React, { ChangeEvent, MouseEvent } from 'react';
 import styles from './FilterButton.module.scss';
 import { ReactComponent as OrientationIcon } from '../../../icons/orientation.svg';
 import { ReactComponent as SizeIcon } from '../../../icons/size.svg';
@@ -155,8 +155,9 @@ function FilterButton(props: PropTypes) {
                   </div>
                   <input
                     type="text"
-                    className={styles.colorInput}
-                    placeholder={'Doesn\'t work yet'} //Enter hex or select color
+                    className={`${styles.colorInput}`}
+                    placeholder={'Enter hex or select color'}
+                    onChange={handleColorInputChange}
                   />
                 </div>
               </li>
@@ -266,6 +267,13 @@ function FilterButton(props: PropTypes) {
 
     if (target.dataset.value !== undefined) {
       props.changeColorFilter(target.dataset.value);
+    }
+  }
+
+  function handleColorInputChange(e: ChangeEvent<HTMLInputElement>) {
+    if (/^([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(e.target.value)) {
+      e.target.dataset.value = e.target.value;
+      props.changeColorFilter(e.target.value);
     }
   }
 
