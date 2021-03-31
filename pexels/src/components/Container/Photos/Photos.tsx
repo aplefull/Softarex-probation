@@ -80,7 +80,7 @@ function Photos(props: PropTypes) {
         <div className={styles.photosColumn} key={index}>
           {column.map((photo: PhotoObjectTypes, index: number) => (
             <Photo
-              photoLink={`${photo.src.original}?auto=compress&cs=tinysrgb&dpr=1&w=800`}
+              photoLink={`${photo.src.original}?auto=compress&cs=tinysrgb&dpr=1&w=400`}
               photoURL={photo.url}
               photographerURL={photo.photographer_url}
               photographerName={photo.photographer}

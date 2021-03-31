@@ -127,7 +127,7 @@ function Modal(props: PropTypes) {
             </div>
           </div>
         </section>
-        <img src={openedPhoto?.src.original} alt="" />
+        <img src={`${openedPhoto?.src.original}?auto=compress&cs=tinysrgb&dpr=1&w=800`} alt="" />
       </div>
     </div>
   );

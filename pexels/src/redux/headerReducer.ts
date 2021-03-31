@@ -21,7 +21,7 @@ export function headerReducer(
       const imageNumber = ~~(Math.random() * 20);
       return {
         ...state,
-        headerImage: `${action.payload.photos[imageNumber].src.original}?auto=compress&crop=focalpoint&cs=tinysrgb&dpr=2&h=1000&w=2000`,
+        headerImage: `${action.payload.photos[imageNumber].src.original}?auto=compress&crop=focalpoint&cs=tinysrgb&dpr=2&h=800&w=1400`,
         authorName: action.payload.photos[imageNumber].photographer,
         authorLink: action.payload.photos[imageNumber].url,
       };
