@@ -46,8 +46,8 @@ function SearchBar(props: PropTypes) {
             let searchQuery = props.inputValue;
 
             if (props.color !== 'all') searchQuery += `&color=${props.color}`;
-            if (props.color !== 'all') searchQuery += `&size=${props.size}`;
-            if (props.color !== 'all') searchQuery += `&orientation=${props.orientation}`;
+            if (props.size !== 'all') searchQuery += `&size=${props.size}`;
+            if (props.orientation !== 'all') searchQuery += `&orientation=${props.orientation}`;
 
             props.performSearch(searchQuery, props.currentPage);
           }
@@ -63,8 +63,8 @@ function SearchBar(props: PropTypes) {
             let searchQuery = props.inputValue;
 
             if (props.color !== 'all') searchQuery += `&color=${props.color}`;
-            if (props.color !== 'all') searchQuery += `&size=${props.size}`;
-            if (props.color !== 'all') searchQuery += `&orientation=${props.orientation}`;
+            if (props.size !== 'all') searchQuery += `&size=${props.size}`;
+            if (props.orientation !== 'all') searchQuery += `&orientation=${props.orientation}`;
 
             props.performSearch(searchQuery, props.currentPage);
           }
