@@ -30,7 +30,6 @@ function Header(props: PropTypes) {
     threshold: 0.5,
   };
   const { ref, inView } = useInView(options);
-
   return (
     <header>
       <NavBar isHidden={inView} />

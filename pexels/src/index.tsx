@@ -7,14 +7,17 @@ import { applyMiddleware, compose, createStore } from 'redux';
 import { rootReducer } from './redux/rootReducer';
 import thunk from 'redux-thunk';
 
-const store = createStore(
-  rootReducer,
-  compose(
-    applyMiddleware(thunk),
-    // @ts-ignore
-   // window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-  )
+// @ts-ignore
+const devtoolsExtension = window.__REDUX_DEVTOOLS_EXTENSION__
+// @ts-ignore
+  ? window.__REDUX_DEVTOOLS_EXTENSION__()
+  : undefined;
+
+const composeArray: Function[] = [applyMiddleware(thunk), devtoolsExtension as Function].filter(
+  Boolean
 );
+
+const store = createStore(rootReducer, compose(...composeArray));
 
 ReactDOM.render(
   <React.StrictMode>
