@@ -1,0 +1,270 @@
+@import 'src/css/variables';
+
+.tab {
+  width: fit-content;
+  height: 37px;
+  margin-right: 10px;
+  padding: 10px;
+  border: 1px solid #e8e8e8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 20px;
+  cursor: pointer;
+
+  .svgIcon {
+    color: #5e5e5e;
+    fill: #5e5e5e;
+    height: 110%;
+  }
+
+  p {
+    color: #5e5e5e;
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin: 0 4px 0 4px;
+  }
+
+  &:hover {
+    box-shadow: 0 0 0 2px #0064f9;
+  }
+
+  &:hover + .dropdownWrapper {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  &:hover > .svgIcon {
+    fill: #0064f9;
+  }
+
+  &:hover > p {
+    color: #0064f9;
+  }
+}
+
+.dropdownWrapper {
+  background-color: $color-white;
+  position: absolute;
+  border-radius: 6px;
+  box-shadow: 0 4px 24px 0 rgba(37, 38, 94, 0.05);
+  top: 40px;
+  z-index: 2;
+  visibility: hidden;
+  opacity: 0;
+  transition-delay: 0.2s;
+
+  &:hover {
+    visibility: visible;
+    opacity: 1;
+    transition-delay: 0.2s;
+  }
+
+  ul {
+    padding: 10px 0 10px 0;
+    margin: 0;
+
+    .selected {
+      p {
+        color: #0064f9;
+      }
+
+      svg:last-child {
+        visibility: visible;
+      }
+
+      svg:first-child path {
+        fill: #0064f9;
+      }
+    }
+
+    li {
+      list-style-type: none;
+      display: flex;
+      align-items: center;
+      padding: 10px 15px 10px 20px;
+      cursor: pointer;
+
+      svg:last-child {
+        visibility: hidden;
+      }
+
+      p {
+        font-size: 0.88rem;
+        font-weight: 500;
+        color: $text-color-gray;
+
+        &:first-child {
+          margin: 0 30px 0 0;
+        }
+
+        &:not(:first-child) {
+          margin: 0 30px 0 10px;
+        }
+      }
+
+      &:last-child {
+        .svgIcon {
+          height: 22px;
+        }
+      }
+
+      &:hover {
+        background-color: #e8e8e8;
+      }
+
+      .svgIcon {
+        width: 25px;
+        height: 25px;
+      }
+
+      .checkmark {
+        margin-left: auto;
+        margin-right: 0;
+        width: 21px;
+        height: 21px;
+      }
+
+      .inputWrapper {
+        width: 245px;
+        height: 45px;
+        border-radius: 5px;
+        border: 1px solid #e8e8e8;
+        padding: 10px 15px 10px 15px;
+        display: flex;
+        align-items: center;
+
+        .colorSwatchWrapper {
+          display: flex;
+          align-items: center;
+          height: 100%;
+
+          .colorSwatch {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: conic-gradient(red, #ff0, lime, #00ffff, blue, #f0f, red);
+          }
+
+          p {
+            width: fit-content;
+            color: $text-color-gray;
+            font-weight: 500;
+            font-size: 0.9rem;
+            margin: 0 6px 0 10px;
+          }
+        }
+
+        .colorInput {
+          height: 100%;
+          outline: none;
+          font-size: 0.84rem;
+          font-weight: 500;
+          border: none;
+
+          &::placeholder {
+            font-weight: 500;
+            color: $text-color-gray;
+            opacity: 0.8;
+            font-size: 0.9rem;
+          }
+        }
+      }
+
+      .colorOptions {
+        width: 100%;
+        height: 100%;
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        grid-template-rows: repeat(2, 1fr);
+        gap: 4px;
+
+        .colorOption {
+          width: 45px;
+          height: 24px;
+          cursor: pointer;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+
+          svg {
+            visibility: hidden;
+            path {
+              fill: white;
+            }
+          }
+        }
+
+        .selectedColor {
+          svg {
+            visibility: visible;
+          }
+        }
+
+        .red {
+          background-color: #f44336;
+        }
+
+        .pink {
+          background-color: #e91e63;
+        }
+
+        .violet {
+          background-color: #673ab7;
+        }
+
+        .blue {
+          background-color: #2196f3;
+        }
+
+        .turquoise {
+          background-color: #009688;
+        }
+
+        .green {
+          background-color: #4caf50;
+        }
+
+        .yellow {
+          background-color: #ffeb3b;
+        }
+
+        .brown {
+          background-color: #795548;
+        }
+
+        .white {
+          background-color: #ffffff;
+          box-shadow: inset 0 0 1px 1px #e8e8e8;
+
+          svg {
+            filter: invert(1);
+          }
+        }
+
+        .black {
+          background-color: #000000;
+        }
+      }
+    }
+  }
+}
+
+.size {
+  left: 45px;
+}
+
+.orientation {
+  left: 0;
+}
+
+.color {
+  right: 10px;
+
+  ul {
+    li:not(:first-child):hover {
+      background-color: $color-white;
+      cursor: default;
+    }
+  }
+}

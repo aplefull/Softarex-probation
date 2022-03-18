@@ -1,30 +1,42 @@
-import React, { useEffect } from 'react';
-import Header from './components/Header/Header';
-import Tabs from './components/Tabs/Tabs';
-import Container from './components/Container/Container';
-import Modal from './components/Container/Photos/Photo/Modal/Modal';
+import React, { useCallback, useEffect, useState } from 'react';
+import Header from './components/Header';
+import Tabs from './components/Tabs';
+import Modal from './components/Modal';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from './redux/rootReducer';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import SearchHeader from './components/SearchHeader/SearchHeader';
-import Photos from './components/Container/Photos/Photos';
-import Loading from './components/Container/Loading/Loading';
-import styles from './components/Container/Container.module.scss';
-import { initCollectibles, initLikes } from './redux/actions';
-import Collection from './components/Collection/Collection';
-import NavBar from "./components/Header/NavBar/NavBar";
+import SearchHeader from './components/SearchHeader';
+import Photos from './components/Photos';
+import Loading from './components/Loading';
+import styles from './css/components/Container.module.scss';
+import { initCollectibles, initLikes } from './redux/photosSlice';
+import Collection from './components/Collection';
+import NavBar from './components/NavBar';
+import Title from './components/Title';
+import { RootState } from './redux/store';
 
 function App() {
-  const isHidden = useSelector(
-    (state: RootState) => state.photosReducer.isHidden
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [photoId, setPhotoId] = useState<number | null>(null);
+
+  const handlePhotoClick = useCallback(
+    (id: number | null) => () => {
+      setPhotoId(id);
+      setIsModalOpen(true);
+    },
+    []
   );
+
+  const handleCloseModal = useCallback(() => {
+    setIsModalOpen(false);
+  }, []);
+
   const dispatch = useDispatch();
+  const { isLoading } = useSelector((state: RootState) => state.photos);
 
   useEffect(() => {
     dispatch(initLikes());
     dispatch(initCollectibles());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [dispatch]);
 
   return (
     <BrowserRouter>
@@ -33,24 +45,28 @@ function App() {
           <>
             <Header />
             <Tabs />
-            <Container />
-            <Modal isHidden={isHidden} />
+            <div className={styles.container}>
+              <Title />
+              <Photos onPhotoClick={handlePhotoClick} />
+              <Loading isLoading={isLoading} />
+            </div>
+            <Modal isOpen={isModalOpen} handleCloseModal={handleCloseModal} photoId={photoId} />
           </>
         </Route>
         <Route path={'/search'}>
           <>
             <SearchHeader />
             <div className={styles.container}>
-              <Photos />
-              <Loading />
+              <Photos onPhotoClick={handlePhotoClick} />
+              <Loading isLoading={isLoading} />
             </div>
-            <Modal isHidden={isHidden} />
+            <Modal isOpen={isModalOpen} handleCloseModal={handleCloseModal} photoId={photoId} />
           </>
         </Route>
         <Route exact path={'/collection'}>
-          <NavBar isHidden={false}></NavBar>
-          <Collection />
-          <Modal isHidden={isHidden}/>
+          <NavBar isHidden={false} />
+          <Collection onPhotoClick={handlePhotoClick} />
+          <Modal isOpen={isModalOpen} handleCloseModal={handleCloseModal} photoId={photoId} />
         </Route>
       </Switch>
     </BrowserRouter>

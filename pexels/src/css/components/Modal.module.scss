@@ -1,0 +1,252 @@
+@import 'src/css/variables';
+
+.overlay {
+  width: 100%;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  position: fixed;
+  z-index: 5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.6);
+  overflow-y: auto;
+
+  .exitButton {
+    position: absolute;
+    top: 25px;
+    left: 25px;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+
+    img {
+      width: 100%;
+      height: 100%;
+      filter: invert(1);
+      opacity: 0.6;
+      position: relative;
+      z-index: 2;
+    }
+
+    &:hover {
+      img {
+        opacity: 1;
+      }
+    }
+
+    @media screen and (max-width: 1000px) and (min-width: 800px) {
+      top: 15px;
+      left: 15px;
+    }
+
+    @media screen and (max-width: 800px) and (min-width: 750px) {
+      top: 10px;
+      left: 10px;
+    }
+
+    @media screen and (max-width: 750px) and (min-width: 450px) {
+      top: 45px;
+      left: 40px;
+
+      img {
+        filter: invert(0);
+      }
+    }
+
+    @media screen and (max-width: 450px) {
+      display: none;
+    }
+  }
+
+  .contentWrapper {
+    position: absolute;
+    top: 30px;
+    width: 90%;
+    height: 90vh;
+    min-height: 500px;
+    border-radius: 5px;
+    background-color: $color-white;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .topBar {
+      width: 100%;
+      height: 50px;
+      display: flex;
+      margin-bottom: 20px;
+
+      @media screen and (max-width: 600px) {
+        height: fit-content;
+        justify-content: center;
+        display: flex;
+      }
+
+      .authorSection {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        a {
+          color: $color-black;
+          font-size: 1rem;
+          margin-right: 20px;
+          text-decoration: none;
+          outline: none;
+        }
+
+        @media screen and (max-width: 900px) {
+          a {
+            display: none;
+          }
+        }
+
+        @media screen and (max-width: 750px) {
+          display: none;
+        }
+      }
+
+      .actionsSection {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-left: auto;
+
+        .btnWrapper {
+          display: flex;
+          align-items: center;
+        }
+
+        .downloadButtonWrapper {
+          width: 190px;
+          height: 43px;
+          display: flex;
+          position: relative;
+
+          .downloadButton {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex: 1;
+            height: 100%;
+            border-radius: 3px 0 0 3px;
+            border: none;
+            outline: none;
+            background-color: $modal-button-color-green;
+            color: $text-color-white;
+            font-size: 1.05rem;
+            font-weight: 100;
+            text-decoration: none;
+            cursor: pointer;
+
+            &:hover {
+              background-color: $modal-button-color-green-hover;
+            }
+          }
+
+          .dropdownButtonWrapper {
+            width: 40px;
+            height: 100%;
+            background-color: $modal-button-color-green;
+            border-radius: 0 3px 3px 0;
+            border-left: 2px solid #04876d;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            img {
+              filter: invert(1);
+              width: 35%;
+              height: auto;
+              user-select: none;
+            }
+
+            &:hover {
+              background-color: $modal-button-color-green-hover;
+            }
+
+            &:hover ~ div {
+              visibility: visible;
+              opacity: 1;
+            }
+          }
+        }
+
+        @media screen and (max-width: 600px) {
+          flex-direction: column;
+          align-items: center;
+          margin-left: 0;
+
+          .btnWrapper {
+            justify-content: center;
+            margin-bottom: 20px;
+
+            .whiteButton:last-child {
+              margin-right: 0;
+            }
+          }
+
+          .downloadButtonWrapper {
+            width: 100%;
+          }
+        }
+      }
+    }
+
+    img {
+      max-height: 80%;
+      max-width: 90%;
+
+      @media screen and (max-width: 600px) and (min-width: 550px) {
+        height: auto;
+        width: 50%;
+      }
+
+      @media screen and (max-width: 550px) and (min-width: 400px) {
+        height: auto;
+        width: 60%;
+      }
+
+      @media screen and (max-width: 400px) {
+        height: auto;
+        width: 80%;
+      }
+    }
+  }
+}
+
+.whiteButton {
+  padding: 6px 13px 6px 13px;
+  font-size: 0.9rem;
+  border: 1px solid lightgray;
+  outline: none;
+  border-radius: 3px;
+  background-color: $color-white;
+  margin-right: 10px;
+  box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+
+  &:hover {
+    background: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.1) 100%);
+  }
+}
+
+.whiteButton.btnLarge {
+  padding: 11px 24px 11px 24px;
+  display: flex;
+  align-items: center;
+
+  svg {
+    height: 20px;
+    width: 20px;
+    margin-right: 10px;
+  }
+}
+
+.hidden {
+  display: none;
+}
