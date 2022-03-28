@@ -8,19 +8,19 @@ import SearchHeader from './components/SearchHeader';
 import Photos from './components/Photos';
 import Loading from './components/Loading';
 import styles from './css/components/Container.module.scss';
-import { initCollectibles, initLikes } from './redux/photosSlice';
+import { initCollectibles, initLikes, PhotoObjectTypes } from './redux/photosSlice';
 import Collection from './components/Collection';
 import NavBar from './components/NavBar';
 import Title from './components/Title';
 import { RootState } from './redux/store';
 
 function App() {
+  const [openedPhoto, setOpenedPhoto] = useState<PhotoObjectTypes | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [photoId, setPhotoId] = useState<number | null>(null);
 
   const handlePhotoClick = useCallback(
-    (id: number | null) => () => {
-      setPhotoId(id);
+    (photo) => () => {
+      setOpenedPhoto(photo);
       setIsModalOpen(true);
     },
     []
@@ -50,7 +50,7 @@ function App() {
               <Photos onPhotoClick={handlePhotoClick} />
               <Loading isLoading={isLoading} />
             </div>
-            <Modal isOpen={isModalOpen} handleCloseModal={handleCloseModal} photoId={photoId} />
+            <Modal isOpen={isModalOpen} handleCloseModal={handleCloseModal} photo={openedPhoto} />
           </>
         </Route>
         <Route path={'/search'}>
@@ -60,13 +60,13 @@ function App() {
               <Photos onPhotoClick={handlePhotoClick} />
               <Loading isLoading={isLoading} />
             </div>
-            <Modal isOpen={isModalOpen} handleCloseModal={handleCloseModal} photoId={photoId} />
+            <Modal isOpen={isModalOpen} handleCloseModal={handleCloseModal} photo={openedPhoto} />
           </>
         </Route>
         <Route exact path={'/collection'}>
           <NavBar isHidden={false} />
           <Collection onPhotoClick={handlePhotoClick} />
-          <Modal isOpen={isModalOpen} handleCloseModal={handleCloseModal} photoId={photoId} />
+          <Modal isOpen={isModalOpen} handleCloseModal={handleCloseModal} photo={openedPhoto} />
         </Route>
       </Switch>
     </BrowserRouter>

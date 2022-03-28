@@ -1,22 +1,21 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import styles from '../css/components/Photos.module.scss';
-import Photo from './Photo';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 import { InView } from 'react-intersection-observer';
 import { RootState } from '../redux/store';
-import { useLocation } from 'react-router-dom';
 import { PhotoObjectTypes } from '../redux/photosSlice';
-import { loadPhotos, performSearch, loadSearchedPhotos } from '../redux/photosSlice';
+import { loadPhotos, performSearch } from '../redux/photosSlice';
+import styles from '../css/components/Photos.module.scss';
+import Photo from './Photo';
 
-interface PropTypes {
-  onPhotoClick: (id: number | null) => React.MouseEventHandler;
-}
+type PhotosProps = {
+  onPhotoClick: (photo: PhotoObjectTypes) => () => void;
+};
 
-function Photos({ onPhotoClick }: PropTypes) {
+function Photos({ onPhotoClick }: PhotosProps) {
   const location = useLocation();
   const dispatch = useDispatch();
-  const { photos, currentPage } = useSelector((state: RootState) => state.photos);
-  const { isLoading, color, size, orientation } = useSelector((state: any) => state);
+  const { photos, currentPage, isLoading } = useSelector((state: RootState) => state.photos);
   const [columnsNumber, setColumnsNumber] = useState(4);
 
   const handleResize = useCallback(() => {
@@ -35,28 +34,45 @@ function Photos({ onPhotoClick }: PropTypes) {
     setColumnsNumber(number);
   }, []);
 
+  const handleInViewChange = useCallback(
+    (inView: boolean) => {
+      if (inView && !isLoading && location.pathname === '/') {
+        dispatch(loadPhotos(currentPage));
+      } else if (inView && !isLoading) {
+        const searchQuery = decodeURIComponent((location.pathname.match(/(?<=\/)[^/]*$/) || [''])[0]);
+        dispatch(performSearch({ value: searchQuery, page: currentPage }));
+      }
+    },
+    [dispatch, isLoading, currentPage, location.pathname]
+  );
+
+  // Load initial photos on first page load
   useEffect(() => {
     if (location.pathname === '/') {
-      dispatch(loadPhotos(currentPage));
+      dispatch(loadPhotos(1));
     } else {
-      let searchQuery = decodeURIComponent((location.pathname.match(/(?<=\/)[^/]*$/) || [''])[0]);
-      dispatch(performSearch({ value: searchQuery, page: currentPage }));
+      const searchQuery = decodeURIComponent((location.pathname.match(/(?<=\/)[^/]*$/) || [''])[0]);
+      dispatch(performSearch({ value: searchQuery, page: 1 }));
     }
+  }, [dispatch, location.pathname]);
 
-    window.addEventListener('resize', () => {
-      handleResize();
-    });
-
+  // Set up listener to change number of columns on resize
+  useEffect(() => {
+    window.addEventListener('resize', handleResize);
     handleResize();
 
     return () => window.removeEventListener('resize', handleResize);
-  }, [dispatch, handleResize, location.pathname, currentPage]);
+  }, [handleResize]);
 
-  let columnsArray: PhotoObjectTypes[][] = [...new Array(columnsNumber)].map(() => []);
+  const columnsArray: PhotoObjectTypes[][] = useMemo(() => {
+    const emptyColumns: PhotoObjectTypes[][] = [...new Array(columnsNumber)].map(() => []);
 
-  for (let i = 0; i < photos.length; i++) {
-    columnsArray[i % columnsArray.length].push(photos[i]);
-  }
+    for (let i = 0; i < photos.length; i++) {
+      emptyColumns[i % emptyColumns.length].push(photos[i]);
+    }
+
+    return emptyColumns;
+  }, [columnsNumber, photos]);
 
   if (photos.length === 0 && !isLoading) return <h2 className={styles.noMatches}>We couldn't find anything...</h2>;
 
@@ -66,9 +82,8 @@ function Photos({ onPhotoClick }: PropTypes) {
         <div className={styles.photosColumn} key={index}>
           {column.map((photo: PhotoObjectTypes, index: number) => (
             <Photo
-              onPhotoClick={onPhotoClick}
+              onPhotoClick={onPhotoClick(photo)}
               photoLink={`${photo.src.original}?auto=compress&cs=tinysrgb&dpr=1&w=400`}
-              photoURL={photo.url}
               photographerURL={photo.photographer_url}
               photographerName={photo.photographer}
               photoId={photo.id}
@@ -77,23 +92,7 @@ function Photos({ onPhotoClick }: PropTypes) {
           ))}
         </div>
       ))}
-      <InView
-        as={'div'}
-        className={styles.intersectionTracker}
-        onChange={(inView: boolean) => {
-          if (inView && !isLoading && location.pathname === '/') {
-            dispatch(loadPhotos(currentPage));
-          } else if (inView && !isLoading) {
-            let searchQuery = decodeURIComponent((location.pathname.match(/(?<=\/)[^/]*$/) || [''])[0]);
-
-            if (color !== 'all') searchQuery += `&color=${color}`;
-            if (size !== 'all') searchQuery += `&size=${size}`;
-            if (orientation !== 'all') searchQuery += `&orientation=${orientation}`;
-
-            dispatch(loadSearchedPhotos({ value: searchQuery, page: currentPage }));
-          }
-        }}
-      >
+      <InView as="div" className={styles.intersectionTracker} onChange={handleInViewChange}>
         <div />
       </InView>
     </div>

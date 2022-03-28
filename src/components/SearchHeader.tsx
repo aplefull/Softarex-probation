@@ -1,4 +1,3 @@
-import React from 'react';
 import styles from '../css/components/SearchHeader.module.scss';
 import NavBar from './NavBar';
 import { ReactComponent as PhotoIcon } from '../assets/icons/photo.svg';

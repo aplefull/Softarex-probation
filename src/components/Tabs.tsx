@@ -1,5 +1,4 @@
 import Tab from './Tab';
-import React from 'react';
 import styles from '../css/components/Tabs.module.scss';
 
 function Tabs() {

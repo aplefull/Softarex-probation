@@ -1,16 +1,16 @@
-import React from 'react';
 import styles from '../css/components/Tab.module.scss';
+import cx from 'classnames';
 
-interface PropTypes {
+type PropTypes = {
   text: string;
   isSelected: boolean;
   url: string;
-}
+};
 
-function Tab(props: PropTypes) {
+function Tab({ url, text, isSelected }: PropTypes) {
   return (
-    <a href={props.url} className={`${styles.tab} ${props.isSelected ? styles.active : ''}`}>
-      <p>{props.text}</p>
+    <a href={url} className={cx(styles.tab, { [styles.active]: isSelected })}>
+      <p>{text}</p>
       <div className={styles.underline} />
     </a>
   );

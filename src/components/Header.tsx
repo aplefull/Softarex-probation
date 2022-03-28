@@ -1,13 +1,13 @@
-import NavBar from './NavBar';
 import React, { useEffect, useMemo } from 'react';
-import styles from '../css/components/Header.module.scss';
-import SearchBar from './SearchBar';
-import { suggestionsArray } from '../constants';
-import { useInView } from 'react-intersection-observer';
-import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
 import { getHeaderImage } from '../redux/photosSlice';
+import { Link } from 'react-router-dom';
+import { useInView } from 'react-intersection-observer';
+import { suggestionsArray } from '../constants';
+import styles from '../css/components/Header.module.scss';
+import NavBar from './NavBar';
+import SearchBar from './SearchBar';
 
 function Header() {
   const dispatch = useDispatch();
@@ -18,15 +18,14 @@ function Header() {
     dispatch(getHeaderImage());
   }, [dispatch]);
 
-  const options = {
+  const { ref: imageRef, inView: imageInView } = useInView({
     threshold: 0.5,
-  };
-  const { ref, inView } = useInView(options);
+  });
 
   return (
     <header>
-      <NavBar isHidden={inView} />
-      <img src={headerImage} className={styles.headerImage} alt="background" ref={ref} />
+      <NavBar isHidden={imageInView || !headerImage} />
+      {headerImage && <img src={headerImage} className={styles.headerImage} alt="background" ref={imageRef} />}
       <div className={styles.headerContentWrapper}>
         <h1>The best free stock photos & videos shared by talented creators.</h1>
         <SearchBar width={650} height={56} />
@@ -40,11 +39,11 @@ function Header() {
                 </Link>
               );
             })}
-            <a href={`https://www.pexels.com/popular-searches/`}>{'more'}</a>
+            <a href="https://www.pexels.com/popular-searches/">more</a>
           </div>
         </div>
       </div>
-      <a href={authorLink} target={'_blank'} rel={'noreferrer'} className={styles.authorLink}>
+      <a href={authorLink} target="_blank" rel="noreferrer" className={styles.authorLink}>
         Photo by {authorName}
       </a>
     </header>

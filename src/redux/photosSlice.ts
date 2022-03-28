@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { RootState } from './store';
 
 export type PhotoInfoType = {
   landscape?: string;
@@ -29,7 +30,6 @@ type InitialPhotosStateTypes = {
   currentPage: number;
   isLoading: boolean;
   isHidden: boolean;
-  modalID: string | null;
   columnsNumber: number;
   liked: Array<number>;
   collected: Array<number>;
@@ -43,7 +43,6 @@ const initialState: InitialPhotosStateTypes = {
   currentPage: 1,
   isLoading: false,
   isHidden: true,
-  modalID: null,
   columnsNumber: 4,
   headerImage: '',
   authorName: '',
@@ -77,20 +76,24 @@ export const loadPhotos = createAsyncThunk('photos/loadPhotos', async (page: num
 
 export const performSearch = createAsyncThunk(
   'photos/performSearch',
-  async ({ value, page }: { value: string; page: number }) => {
-    const response = await fetch(`https://api.pexels.com/v1/search?query=${value}&per_page=20&&page=${page}`, {
-      headers: {
-        Authorization: '563492ad6f917000010000014640aabb4e9d420cbe1c0df7daf4c2bf',
-      },
-    });
-    return await response.json();
-  }
-);
+  async (
+    { value, page, shouldClearPhotos = false }: { value: string; page: number; shouldClearPhotos?: boolean },
+    { dispatch, getState }
+  ) => {
+    if (shouldClearPhotos) {
+      dispatch(clearPhotos());
+    }
 
-export const loadSearchedPhotos = createAsyncThunk(
-  'photos/loadSearchedPhotos',
-  async ({ value, page }: { value: string; page: number }) => {
-    const response = await fetch(`https://api.pexels.com/v1/search?query=${value}&per_page=20&&page=${page}`, {
+    const { filters } = getState() as RootState;
+    const {color, size, orientation} = filters;
+
+    let searchQuery = '';
+    
+    if (color !== 'all') searchQuery += `&color=${color}`;
+    if (size !== 'all') searchQuery += `&size=${size}`;
+    if (orientation !== 'all') searchQuery += `&orientation=${orientation}`;
+
+    const response = await fetch(`https://api.pexels.com/v1/search?query=${value}${searchQuery}&per_page=20&&page=${page}`, {
       headers: {
         Authorization: '563492ad6f917000010000014640aabb4e9d420cbe1c0df7daf4c2bf',
       },
@@ -142,7 +145,7 @@ export const photosSlice = createSlice({
     },
     clearPhotos: (state) => {
       state.photos = [];
-      state.currentPage = 2;
+      state.currentPage = 1;
     },
   },
   extraReducers: (builder) => {
@@ -152,24 +155,16 @@ export const photosSlice = createSlice({
     builder.addCase(loadPhotos.fulfilled, (state, action) => {
       state.isLoading = false;
       state.photos = state.photos.concat(action.payload.photos);
+      state.currentPage = state.currentPage + 1;
     });
 
     builder.addCase(performSearch.pending, (state) => {
       state.isLoading = true;
-      state.photos = [];
-      state.currentPage = 2;
     });
     builder.addCase(performSearch.fulfilled, (state, action) => {
       state.isLoading = false;
       state.photos = state.photos.concat(action.payload.photos);
-    });
-
-    builder.addCase(loadSearchedPhotos.pending, (state) => {
-      state.isLoading = true;
-    });
-    builder.addCase(loadSearchedPhotos.fulfilled, (state, action) => {
-      state.isLoading = false;
-      state.photos = state.photos.concat(action.payload.photos);
+      state.currentPage = state.currentPage + 1;
     });
 
     builder.addCase(loadCollectionPhotos.pending, (state) => {

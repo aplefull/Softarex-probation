@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import styles from '../css/components/Photo.module.scss';
 import { ReactComponent as DownloadIcon } from '../assets/icons/download.svg';
 import { ReactComponent as HeartIcon } from '../assets/icons/heart.svg';
@@ -9,79 +9,57 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addCollectible, addLike, removeCollectible, removeLike } from '../redux/photosSlice';
 import { RootState } from '../redux/store';
 
-interface PropTypes {
-  onPhotoClick: (id: number | null) => React.MouseEventHandler;
+type PropTypes = {
+  onPhotoClick: () => void;
   photoLink: string;
   photographerURL: string;
   photographerName: string;
   photoId: number;
-  photoURL: string;
-}
+};
 
-function Photo(props: PropTypes) {
+function Photo({ onPhotoClick, photoId, photographerName, photoLink, photographerURL }: PropTypes) {
   const dispatch = useDispatch();
   const { liked, collected } = useSelector((state: RootState) => state.photos);
 
+  const handleCollectClick = useCallback(() => {
+    if (collected.includes(photoId)) {
+      dispatch(removeCollectible(photoId));
+    } else {
+      dispatch(addCollectible(photoId));
+    }
+  }, [collected, photoId, dispatch]);
+
+  const handleLikeClick = useCallback(() => {
+    if (liked.includes(photoId)) {
+      dispatch(removeLike(photoId));
+    } else {
+      dispatch(addLike(photoId));
+    }
+  }, [liked, photoId, dispatch]);
+
   return (
     <div className={styles.photoWrapper}>
-      <img
-        src={props.photoLink}
-        alt={'p-card'}
-        className={styles.photoImage}
-        onClick={props.onPhotoClick(props.photoId)}
-      />
+      <img src={photoLink} alt="p-card" className={styles.photoImage} onClick={onPhotoClick} />
       <div className={styles.overlay}>
         <div className={styles.authorLinkWrapper}>
-          <a href={props.photographerURL}>{props.photographerName}</a>
+          <a href={photographerURL}>{photographerName}</a>
         </div>
         <div className={styles.otherLinksWrapper}>
-          <a href={`https://www.pexels.com/photo/${props.photoId}/download`}>
+          <a href={`https://www.pexels.com/photo/${photoId}/download`}>
             <DownloadIcon />
           </a>
           <span>
-            {collected.includes(props.photoId) ? (
-              <AddCircledIcon
-                onClick={() => {
-                  if (collected.includes(props.photoId)) {
-                    dispatch(removeCollectible(props.photoId));
-                  } else {
-                    dispatch(addCollectible(props.photoId));
-                  }
-                }}
-              />
+            {collected.includes(photoId) ? (
+              <AddCircledIcon onClick={handleCollectClick} />
             ) : (
-              <AddIcon
-                onClick={() => {
-                  if (collected.includes(props.photoId)) {
-                    dispatch(removeCollectible(props.photoId));
-                  } else {
-                    dispatch(addCollectible(props.photoId));
-                  }
-                }}
-              />
+              <AddIcon onClick={handleCollectClick} />
             )}
           </span>
           <span>
-            {liked.includes(props.photoId) ? (
-              <HeartFilledIcon
-                onClick={() => {
-                  if (liked.includes(props.photoId)) {
-                    dispatch(removeLike(props.photoId));
-                  } else {
-                    dispatch(addLike(props.photoId));
-                  }
-                }}
-              />
+            {liked.includes(photoId) ? (
+              <HeartFilledIcon onClick={handleLikeClick} />
             ) : (
-              <HeartIcon
-                onClick={() => {
-                  if (liked.includes(props.photoId)) {
-                    dispatch(removeLike(props.photoId));
-                  } else {
-                    dispatch(addLike(props.photoId));
-                  }
-                }}
-              />
+              <HeartIcon onClick={handleLikeClick} />
             )}
           </span>
         </div>

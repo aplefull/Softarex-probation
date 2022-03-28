@@ -1,36 +1,38 @@
-import React, { useEffect } from 'react';
-import styles from '../css/components/Collection.module.scss';
-import containerStyles from '../css/components/Photos.module.scss';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useEffect, useMemo } from 'react';
 import { RootState } from '../redux/store';
-import { clearPhotos, loadCollectionPhotos } from '../redux/photosSlice';
+import { useDispatch, useSelector } from 'react-redux';
 import { PhotoObjectTypes } from '../redux/photosSlice';
+import { clearPhotos, loadCollectionPhotos } from '../redux/photosSlice';
+import containerStyles from '../css/components/Photos.module.scss';
+import styles from '../css/components/Collection.module.scss';
 import Photo from './Photo';
 
-interface PropTypes {
-  onPhotoClick: (id: number | null) => React.MouseEventHandler;
-}
+type CollectionProps = {
+  onPhotoClick: (photo: PhotoObjectTypes) => () => void;
+};
 
-function Collection(props: PropTypes) {
+function Collection({ onPhotoClick }: CollectionProps) {
   const dispatch = useDispatch();
-  const { photos, columnsNumber } = useSelector((state: RootState) => state.photos);
-  const collected = JSON.parse(localStorage.getItem('collected') || '[]');
+  const { photos, columnsNumber, collected } = useSelector((state: RootState) => state.photos);
 
   useEffect(() => {
     dispatch(clearPhotos());
-    for (let i = 0; i < collected.length; i++) {
-      dispatch(loadCollectionPhotos(collected[i]));
+    collected.forEach((photo) => {
+      dispatch(loadCollectionPhotos(photo));
+    });
+  }, [collected, dispatch]);
+
+  const columnsArray: PhotoObjectTypes[][] = useMemo(() => {
+    const emptyColumns: PhotoObjectTypes[][] = [...new Array(columnsNumber)].map(() => []);
+
+    for (let i = 0; i < photos.length; i++) {
+      emptyColumns[i % emptyColumns.length].push(photos[i]);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
-  let columnsArray: PhotoObjectTypes[][] = [...new Array(columnsNumber)].map(() => []);
+    return emptyColumns;
+  }, [columnsNumber, photos]);
 
-  for (let i = 0; i < photos.length; i++) {
-    columnsArray[i % columnsArray.length].push(photos[i]);
-  }
-
-  if (collected.length === 0)
+  if (collected.length === 0) {
     return (
       <div className={styles.noImages}>
         <h1>
@@ -38,6 +40,7 @@ function Collection(props: PropTypes) {
         </h1>
       </div>
     );
+  }
 
   return (
     <>
@@ -48,9 +51,8 @@ function Collection(props: PropTypes) {
             <div className={containerStyles.photosColumn} key={index}>
               {column.map((photo: PhotoObjectTypes, index: number) => (
                 <Photo
-                  onPhotoClick={props.onPhotoClick}
+                  onPhotoClick={onPhotoClick(photo)}
                   photoLink={`${photo.src.original}?auto=compress&cs=tinysrgb&dpr=1&w=800`}
-                  photoURL={photo.url}
                   photographerURL={photo.photographer_url}
                   photographerName={photo.photographer}
                   photoId={photo.id}
