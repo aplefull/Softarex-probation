@@ -18,17 +18,19 @@ function Header() {
     dispatch(getHeaderImage());
   }, [dispatch]);
 
-  const { ref: imageRef, inView: imageInView } = useInView({
+  const { ref, inView } = useInView({
     threshold: 0.5,
   });
 
   return (
     <header>
-      <NavBar isHidden={imageInView || !headerImage} />
-      {headerImage && <img src={headerImage} className={styles.headerImage} alt="background" ref={imageRef} />}
+      <NavBar isHidden={inView} />
+      {headerImage && <img src={headerImage} className={styles.headerImage} alt="background" />}
       <div className={styles.headerContentWrapper}>
         <h1>The best free stock photos & videos shared by talented creators.</h1>
-        <SearchBar width={650} height={56} />
+        <div ref={ref}>
+          <SearchBar width={650} height={56} />
+        </div>
         <div className={styles.suggestedWrapper}>
           <p>Suggested:</p>
           <div className={styles.suggestionsWrapper}>

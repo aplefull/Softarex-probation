@@ -3,7 +3,7 @@ import Header from './components/Header';
 import Tabs from './components/Tabs';
 import Modal from './components/Modal';
 import { useDispatch, useSelector } from 'react-redux';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
 import SearchHeader from './components/SearchHeader';
 import Photos from './components/Photos';
 import Loading from './components/Loading';
@@ -13,6 +13,7 @@ import Collection from './components/Collection';
 import NavBar from './components/NavBar';
 import Title from './components/Title';
 import { RootState } from './redux/store';
+import { ROUTES } from './constants';
 
 function App() {
   const [openedPhoto, setOpenedPhoto] = useState<PhotoObjectTypes | null>(null);
@@ -41,7 +42,7 @@ function App() {
   return (
     <BrowserRouter>
       <Switch>
-        <Route exact path={'/'}>
+        <Route exact path={ROUTES.INDEX}>
           <>
             <Header />
             <Tabs />
@@ -53,7 +54,7 @@ function App() {
             <Modal isOpen={isModalOpen} handleCloseModal={handleCloseModal} photo={openedPhoto} />
           </>
         </Route>
-        <Route path={'/search'}>
+        <Route path={ROUTES.SEARCH}>
           <>
             <SearchHeader />
             <div className={styles.container}>
@@ -63,11 +64,12 @@ function App() {
             <Modal isOpen={isModalOpen} handleCloseModal={handleCloseModal} photo={openedPhoto} />
           </>
         </Route>
-        <Route exact path={'/collection'}>
+        <Route exact path={ROUTES.COLLECTION}>
           <NavBar isHidden={false} />
           <Collection onPhotoClick={handlePhotoClick} />
           <Modal isOpen={isModalOpen} handleCloseModal={handleCloseModal} photo={openedPhoto} />
         </Route>
+        <Redirect to={ROUTES.INDEX} />
       </Switch>
     </BrowserRouter>
   );

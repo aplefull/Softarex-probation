@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { RootState } from './store';
+import { AUTH_TOKEN } from '../constants';
 
 export type PhotoInfoType = {
   landscape?: string;
@@ -56,7 +57,7 @@ export const getHeaderImage = createAsyncThunk('photos/getHeaderImage', async ()
     `https://api.pexels.com/v1/search?query=mountains&orientation=landscape&size=medium&per_page=20&page=1`,
     {
       headers: {
-        Authorization: '563492ad6f917000010000014640aabb4e9d420cbe1c0df7daf4c2bf',
+        Authorization: AUTH_TOKEN,
       },
     }
   );
@@ -68,7 +69,7 @@ export const getHeaderImage = createAsyncThunk('photos/getHeaderImage', async ()
 export const loadPhotos = createAsyncThunk('photos/loadPhotos', async (page: number) => {
   const response = await fetch(`https://api.pexels.com/v1/curated?per_page=20&&page=${page}`, {
     headers: {
-      Authorization: '563492ad6f917000010000014640aabb4e9d420cbe1c0df7daf4c2bf',
+      Authorization: AUTH_TOKEN,
     },
   });
   return await response.json();
@@ -95,7 +96,7 @@ export const performSearch = createAsyncThunk(
 
     const response = await fetch(`https://api.pexels.com/v1/search?query=${value}${searchQuery}&per_page=20&&page=${page}`, {
       headers: {
-        Authorization: '563492ad6f917000010000014640aabb4e9d420cbe1c0df7daf4c2bf',
+        Authorization: AUTH_TOKEN,
       },
     });
     return await response.json();
@@ -105,7 +106,7 @@ export const performSearch = createAsyncThunk(
 export const loadCollectionPhotos = createAsyncThunk('photos/loadCollectionPhotos', async (id: number) => {
   const response = await fetch(`https://api.pexels.com/v1/photos/${id}`, {
     headers: {
-      Authorization: '563492ad6f917000010000014640aabb4e9d420cbe1c0df7daf4c2bf',
+      Authorization: AUTH_TOKEN,
     },
   });
   return await response.json();

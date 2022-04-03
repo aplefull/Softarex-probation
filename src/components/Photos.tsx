@@ -7,6 +7,7 @@ import { PhotoObjectTypes } from '../redux/photosSlice';
 import { loadPhotos, performSearch } from '../redux/photosSlice';
 import styles from '../css/components/Photos.module.scss';
 import Photo from './Photo';
+import { ROUTES } from '../constants';
 
 type PhotosProps = {
   onPhotoClick: (photo: PhotoObjectTypes) => () => void;
@@ -36,7 +37,7 @@ function Photos({ onPhotoClick }: PhotosProps) {
 
   const handleInViewChange = useCallback(
     (inView: boolean) => {
-      if (inView && !isLoading && location.pathname === '/') {
+      if (inView && !isLoading && location.pathname === ROUTES.INDEX) {
         dispatch(loadPhotos(currentPage));
       } else if (inView && !isLoading) {
         const searchQuery = decodeURIComponent((location.pathname.match(/(?<=\/)[^/]*$/) || [''])[0]);
@@ -48,11 +49,11 @@ function Photos({ onPhotoClick }: PhotosProps) {
 
   // Load initial photos on first page load
   useEffect(() => {
-    if (location.pathname === '/') {
+    if (location.pathname === ROUTES.INDEX) {
       dispatch(loadPhotos(1));
     } else {
       const searchQuery = decodeURIComponent((location.pathname.match(/(?<=\/)[^/]*$/) || [''])[0]);
-      dispatch(performSearch({ value: searchQuery, page: 1 }));
+      dispatch(performSearch({ value: searchQuery, page: 1, shouldClearPhotos: true }));
     }
   }, [dispatch, location.pathname]);
 

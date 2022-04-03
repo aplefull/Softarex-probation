@@ -2,7 +2,6 @@ import React, { ChangeEvent, KeyboardEvent, useCallback, useMemo } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { handleInputChange } from '../redux/searchBarSlice';
-import { performSearch } from '../redux/photosSlice';
 import { RootState } from '../redux/store';
 import icon from '../assets/icons/magnifying-glass.svg';
 import styles from '../css/components/SearchBar.module.scss';
@@ -18,8 +17,6 @@ function SearchBar({ isHidden, width, height }: PropTypes) {
   const dispatch = useDispatch();
   const history = useHistory();
   const { inputValue } = useSelector((state: RootState) => state.searchBar);
-  const { currentPage } = useSelector((state: RootState) => state.photos);
-  const { color, size, orientation } = useSelector((state: RootState) => state.filters);
 
   const onInputChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
@@ -31,16 +28,7 @@ function SearchBar({ isHidden, width, height }: PropTypes) {
   const search = useCallback(() => {
     history.push(`/search/${encodeURIComponent(inputValue)}`);
     window.scrollTo(0, 0);
-    let searchQuery = inputValue;
-
-    dispatch(
-      performSearch({
-        value: searchQuery,
-        page: currentPage,
-        shouldClearPhotos: true,
-      })
-    );
-  }, [inputValue, currentPage, history, dispatch]);
+  }, [inputValue, history]);
 
   const onKeyPress = useCallback(
     (e: KeyboardEvent<HTMLInputElement>) => {

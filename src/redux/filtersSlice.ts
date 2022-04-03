@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { performSearch } from './photosSlice';
-import { RootState } from './store';
 
 type InitialFiltersStateTypes = {
   orientation: string;
@@ -16,14 +15,13 @@ const initialState: InitialFiltersStateTypes = {
 
 export const changeColorFilter = createAsyncThunk(
   'filters/changeColorFilter',
-  async (color: string, { dispatch, getState }) => {
+  async (color: string, { dispatch }) => {
     await dispatch(setColorFilter(color));
-    const { photos } = getState() as RootState;
     dispatch(
       performSearch({
         // eslint-disable-next-line no-restricted-globals
         value: (location.pathname.match(/(?<=\/)[^/]*$/) || [''])[0],
-        page: photos.currentPage,
+        page: 1,
         shouldClearPhotos: true,
       })
     );
@@ -32,14 +30,14 @@ export const changeColorFilter = createAsyncThunk(
 
 export const changeSizeFilter = createAsyncThunk(
   'filters/changeSizeFilter',
-  async (size: string, { dispatch, getState }) => {
+  async (size: string, { dispatch }) => {
     await dispatch(setSizeFilter(size));
-    const { photos } = getState() as RootState;
+
     dispatch(
       performSearch({
         // eslint-disable-next-line no-restricted-globals
         value: (location.pathname.match(/(?<=\/)[^/]*$/) || [''])[0],
-        page: photos.currentPage,
+        page: 1,
         shouldClearPhotos: true,
       })
     );
@@ -48,14 +46,14 @@ export const changeSizeFilter = createAsyncThunk(
 
 export const changeOrientationFilter = createAsyncThunk(
   'filters/changeOrientationFilter',
-  async (orientation: string, { dispatch, getState }) => {
+  async (orientation: string, { dispatch }) => {
     await dispatch(setOrientationFilter(orientation));
-    const { photos } = getState() as RootState;
+
     dispatch(
       performSearch({
         // eslint-disable-next-line no-restricted-globals
         value: (location.pathname.match(/(?<=\/)[^/]*$/) || [''])[0],
-        page: photos.currentPage,
+        page: 1,
         shouldClearPhotos: true,
       })
     );
